@@ -1,10 +1,7 @@
 package service;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import model.Course;
 import model.Student;
@@ -20,6 +17,10 @@ public class MyFileWriter implements Serializable {
     public void save(HashMap<Student,ArrayList<Course>> map) {
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("src/scorefile/16¼Æ»ú4°à³É¼¨.txt"));
+            for (String s : MyFileReader.getList()) {
+                bw.write(s+",");
+            }
+            bw.newLine();
 			for (Map.Entry<Student,ArrayList<Course>> m : map.entrySet()) {
 				Student student = m.getKey();
 				bw.write(student.getStudentId() + "," + student.getName() + "," + student.getAttendenceScore() + ","
@@ -32,7 +33,7 @@ public class MyFileWriter implements Serializable {
                         bw.write(course.getCourseName() + "=" + course.getScore()+",");
                     }
 				}else {
-				    bw.write("null"+0+",");
+				    bw.write("null"+"="+0+",");
                 }
 				bw.newLine();
 			}
