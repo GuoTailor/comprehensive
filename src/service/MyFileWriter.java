@@ -44,11 +44,11 @@ public class MyFileWriter implements Serializable {
 		}
     }
 
-    public void addCourse (Student student,String name) {
+    public void addCourse (String name) {
         MyFileReader.getList().add(name);
-        ArrayList<Course> courses = map.get(student);
-        courses.add(new Course(name,0));
-        map.put(student,courses);
+        for (Map.Entry<Student,ArrayList<Course>> m:map.entrySet()) {
+            m.getValue().add(new Course(name,0));
+        }
         this.save(map);
     }
 
