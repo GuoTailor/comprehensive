@@ -44,6 +44,14 @@ public class MyFileWriter implements Serializable {
 		}
     }
 
+    public void addCourse (Student student,String name) {
+        MyFileReader.getList().add(name);
+        ArrayList<Course> courses = map.get(student);
+        courses.add(new Course(name,0));
+        map.put(student,courses);
+        this.save(map);
+    }
+
     public void update(Student student){
         ArrayList<String> list = MyFileReader.getList();
         ArrayList<Course> course = new ArrayList<>();
