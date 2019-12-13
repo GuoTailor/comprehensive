@@ -4,10 +4,12 @@ import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -75,12 +77,12 @@ public class MainController implements Initializable {
 
     @FXML
     private void openFile() {
-
+/*
         MyFileReader fileLloader = new MyFileReader();
-        fileLloader.setFile(MyFileChooser.chooseFile());/*读取文件*/
+        fileLloader.setFile(MyFileChooser.chooseFile());*//*读取文件*//*
         if (fileLloader.getFile() != null) {
             try {
-                students = fileLloader.getFileStudents();/*读取文件中的学生信息*/
+                students = fileLloader.getFileStudents();*//*读取文件中的学生信息*//*
             } catch (NumberFormatException e) {
                 MessageView.createView("文件格式错误，请重新编排文件格式！");
                 e.printStackTrace();
@@ -89,17 +91,17 @@ public class MainController implements Initializable {
                 ObservableList<Student> data = FXCollections
                         .observableArrayList(students);
 
-                AnalysisStudents(students);/*分析学生成绩*/
-                studentView.setItems(data);/*填充数据*/
+                AnalysisStudents(students);*//*分析学生成绩*//*
+                studentView.setItems(data);*//*填充数据*//*
                 status.setText(fileLloader.getFile().getPath() + "_共"
                         + analysis.getTotalNum() + "人");
                 String temp = fileLloader.getFile().getName();
-                filePath = fileLloader.getFile().getPath();/*获取文件路径，后面修改文件使用*/
+                filePath = fileLloader.getFile().getPath();*//*获取文件路径，后面修改文件使用*//*
                 fileName = temp.substring(0, temp.lastIndexOf("."));
             }
         } else {
             MessageView.createView("文件为空");
-        }
+        }*/
     }
 
     private void AnalysisStudents(ArrayList<Student> students) {
@@ -136,7 +138,6 @@ public class MainController implements Initializable {
         passPercentage.setText(df.format(passPercentageTempDouble));
         failPercentage.setText(df.format(failPercentageTempDouble));
 
-//        courseName.setText(course.getCourseName());
     }
 
     @FXML
@@ -173,21 +174,15 @@ public class MainController implements Initializable {
 
     @FXML
     public TableView<Student> studentView;
+    public List<TableColumn<Student, ?>> tableColumnList = new ArrayList<>();
 
-    public TableColumn<Student, String> studentId = new TableColumn<>(
-            "学号");
-    public TableColumn<Student, String> name = new TableColumn<>(
-            "姓名");
-    public TableColumn<Student, Integer> attendenceScore = new TableColumn<>(
-            "考勤");
-    public TableColumn<Student, Integer> testScore = new TableColumn<>(
-            "测验");
-    public TableColumn<Student, Integer> homeworkScore = new TableColumn<>(
-            "作业");
-    public TableColumn<Student, Integer> finalTestScore = new TableColumn<>(
-            "期末");
-    public TableColumn<Student, Integer> finalScore = new TableColumn<>(
-            "总评");
+    public TableColumn<Student, String> studentId = new TableColumn<>("学号");
+    public TableColumn<Student, String> name = new TableColumn<>("姓名");
+    public TableColumn<Student, Integer> attendenceScore = new TableColumn<>("考勤");
+    public TableColumn<Student, Integer> testScore = new TableColumn<>("测验");
+    public TableColumn<Student, Integer> homeworkScore = new TableColumn<>("作业");
+    public TableColumn<Student, Integer> finalTestScore = new TableColumn<>("期末");
+    public TableColumn<Student, Integer> finalScore = new TableColumn<>("总评");
 
     @FXML
     private void search() {
@@ -246,8 +241,8 @@ public class MainController implements Initializable {
         studentView.scrollTo(data);
         System.out.println("add");
 //		new InsertStudent().updateFile(data);
-        ArrayList<Course> courses = new ArrayList<>();
         students.add(data);
+        MyFileWriter.instance.update(data);
     }
 
     @FXML
@@ -301,34 +296,27 @@ public class MainController implements Initializable {
     }
 
     private void tableViewinitialize() {
-        studentId
-                .setCellValueFactory(new PropertyValueFactory<>(
-                        "studentId"));
+        studentId.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         studentId.setPrefWidth(125);/*设置表格初始化*/
 
-        name.setCellValueFactory(new PropertyValueFactory<>(
-                "name"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
         name.setPrefWidth(60);
 
-        attendenceScore.setCellValueFactory(new PropertyValueFactory<>(
-                "attendenceScore"));
+        attendenceScore.setCellValueFactory(new PropertyValueFactory<>("attendenceScore"));
         attendenceScore.setPrefWidth(60);
 
-        testScore.setCellValueFactory(new PropertyValueFactory<>(
-                "testScore"));
+        testScore.setCellValueFactory(new PropertyValueFactory<>("testScore"));
         testScore.setPrefWidth(60);
 
-        homeworkScore.setCellValueFactory(new PropertyValueFactory<>(
-                "homeworkScore"));
+        homeworkScore.setCellValueFactory(new PropertyValueFactory<>("homeworkScore"));
         homeworkScore.setPrefWidth(60);
 
-        finalTestScore.setCellValueFactory(new PropertyValueFactory<>(
-                "finalTestScore"));
+        finalTestScore.setCellValueFactory(new PropertyValueFactory<>("finalTestScore"));
         finalTestScore.setPrefWidth(61);
 
-        finalScore.setCellValueFactory(new PropertyValueFactory<>(
-                "finalScore"));
+        finalScore.setCellValueFactory(new PropertyValueFactory<>("finalScore"));
         finalScore.setPrefWidth(61);
+
 
         studentView.getColumns().clear();
         studentView.setEditable(true);/*设置可编辑，修改功能*/
@@ -347,7 +335,7 @@ public class MainController implements Initializable {
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setStudentId(score
                         .getNewValue());
-                tableViewinitialize();/*表格重新初始化*/
+                reload();/*表格重新初始化*/
             }
         });
 
@@ -358,7 +346,7 @@ public class MainController implements Initializable {
                 info.getTableView().getItems()
                         .get(info.getTablePosition().getRow()).setName(info
                         .getNewValue());
-                tableViewinitialize();
+                reload();
             }
         });
 
@@ -428,14 +416,32 @@ public class MainController implements Initializable {
                 reload();
             }
         });
-
-        studentView.getColumns().addAll(studentId, name, attendenceScore, testScore, homeworkScore, finalTestScore, finalScore);
-
+        tableColumnList.add(studentId);
+        tableColumnList.add(name);
+        tableColumnList.add(attendenceScore);
+        tableColumnList.add(testScore);
+        tableColumnList.add(homeworkScore);
+        tableColumnList.add(finalTestScore);
+        tableColumnList.add(finalScore);
+        MyFileReader.getList().forEach(System.out::println);
+        for (String str: MyFileReader.getList()) {
+            TableColumn<Student, Integer> item = new TableColumn<>(str);
+            item.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
+                @Override
+                public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
+                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.get(param.getValue(), str));
+                }
+            });
+            item.setEditable(true);
+            item.setPrefWidth(60);
+            tableColumnList.add(item);
+        }
+        studentView.getColumns().addAll(tableColumnList);
     }
 
     private void reload() {
         AnalysisStudents(students);
         studentView.getColumns().clear();
-        studentView.getColumns().addAll(studentId, name, attendenceScore, testScore, homeworkScore, finalTestScore, finalScore);
+        studentView.getColumns().addAll(tableColumnList);
     }
 }

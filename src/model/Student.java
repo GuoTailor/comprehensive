@@ -156,8 +156,4 @@ public class Student implements Serializable, Cloneable{
 				Objects.equals(list, student.list);
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(studentId, name, password, attendenceScore, testScore, homeworkScore, finalTestScore, finalScore, list);
-	}
 }
