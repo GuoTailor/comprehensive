@@ -31,7 +31,9 @@ public class MyFileWriter implements Serializable {
 					for (Course course : list) {
                         bw.write(course.getCourseName() + "=" + course.getScore()+",");
                     }
-				}
+				}else {
+				    bw.write("null"+0+",");
+                }
 				bw.newLine();
 			}
 			bw.flush();
@@ -41,42 +43,24 @@ public class MyFileWriter implements Serializable {
 		}
     }
 
+    public void put(Student student){
+        ArrayList<String> list = MyFileReader.getList();
+        ArrayList<Course> course = new ArrayList<>();
+        for (int i = 0;i < list.size();i++) {
+            course.add(new Course("null",0));
+        }
+    }
 
-    public void saveFile(File file, Course course, ArrayList<Student> students) {
-        try {
-            if (file.getName().toLowerCase().endsWith(".txt")) {
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "GBK"));
-
-                bw.write(course.getCourseName() + "," + course.getScore());
-                bw.newLine();
-
-                for (Student student : students) {
-                    bw.write(student.getStudentId() + "," + student.getName() + "," + student.getAttendenceScore() + ","
-                            + student.getTestScore() + "," + student.getHomeworkScore() + ","
-                            + student.getFinalTestScore() + "," + student.getFinalScore());
-                    bw.newLine();
+    public void alter (Student student,String courseName,String score) {
+        ArrayList<Course> lis = map.get(student);
+        for (Course course : lis) {
+            if (courseName.equals(course.getCourseName())) {
+                try {
+                    course.setScore(Integer.parseInt(score));
+                }catch (NumberFormatException e){
+                    System.err.println("!请输入数字!");
                 }
-                bw.flush();
-                bw.close();
-                MessageView.createView("保存成功!");
-            } else if (file.getName().toLowerCase().endsWith(".dat")) {
-                FileOutputStream fos = null;
-                fos = new FileOutputStream(file);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(course);
-                oos.writeObject(students);
-                oos.flush();
-                oos.close();
-                MessageView.createView("保存成功!!");
-            } else {
-                MessageView.createView("后缀名错误!");
             }
-        } catch (FileNotFoundException e) {
-            MessageView.createView("未找到文件!");
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-            MessageView.createView("保存失败!");
         }
     }
 }

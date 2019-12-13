@@ -20,13 +20,23 @@ public class MyFileReader {
 	Object firstLine;
 
 	private static HashMap<Student, ArrayList<Course>> map = new HashMap<>();
+	private static ArrayList<String> list = new ArrayList<>();
+
 	static {
 		try {
+			int num = 1;
 			BufferedReader bf = new BufferedReader(new FileReader("src/scorefile/16¼Æ»ú4°à³É¼¨.txt"));
 			String message = bf.readLine();
 			while (message != null) {
+				if (num == 1) {
+					String [] course = message.split(",");
+					list.addAll(Arrays.asList(course));
+					num++;
+					continue;
+				}
 				String s [] = message.split("#");
 				if (s.length == 2) {
+
 					String stu [] = s[0].split(",");
 					Student student = new Student(stu[0],stu[1],Integer.parseInt(stu[2]),Integer.parseInt(stu[3])
 							, Integer.parseInt(stu[4]),Integer.parseInt(stu[5]),0);
@@ -38,8 +48,9 @@ public class MyFileReader {
 						list.add(new Course(course[0],Integer.parseInt(course[1])));
 					}
 					map.put(student,list);
-					message = bf.readLine();
+					num++;
 				}
+				message = bf.readLine();
 			}
 			bf.close();
 		} catch (IOException e) {
@@ -51,7 +62,9 @@ public class MyFileReader {
 		return map;
 	}
 
-
+	public static ArrayList<String> getList(){
+		return list;
+	}
 
 
 

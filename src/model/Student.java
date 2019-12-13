@@ -4,6 +4,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 /**
@@ -20,6 +21,21 @@ public class Student implements Serializable, Cloneable{
 	private int homeworkScore;
 	private int finalTestScore;
 	private int finalScore;
+	private ArrayList<Course> list = new ArrayList<>();
+
+	public Student(ArrayList<Course> list) {
+		this.list = list;
+	}
+
+	public ArrayList<Course> getList() {
+		return list;
+	}
+
+	public void setList(ArrayList<Course> list) {
+		this.list = list;
+	}
+
+	public Student(){}
 	
 	public Student(String studentId, String name, int attendenceScore, int testScore, int homeworkScore, int finalTestScore,int finalScore) {
 		this.studentId = studentId;
