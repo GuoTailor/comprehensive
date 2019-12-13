@@ -44,12 +44,16 @@ public class MyFileWriter implements Serializable {
 		}
     }
 
-    public void put(Student student){
+    public void update(Student student){
         ArrayList<String> list = MyFileReader.getList();
         ArrayList<Course> course = new ArrayList<>();
-        for (int i = 0;i < list.size();i++) {
-            course.add(new Course("null",0));
+        for (String s : list) {
+            course.add(new Course(s,0));
         }
+        map.put(student,course);
+//        for (int i = 0;i < list.size();i++) {
+//            course.add(new Course(,0));
+//        }
     }
 
     public void alter (Student student,String courseName,String score) {
