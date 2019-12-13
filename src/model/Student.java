@@ -5,6 +5,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -137,5 +138,26 @@ public class Student implements Serializable, Cloneable{
 				", finalTestScore=" + finalTestScore +
 				", finalScore=" + finalScore +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Student student = (Student) o;
+		return attendenceScore == student.attendenceScore &&
+				testScore == student.testScore &&
+				homeworkScore == student.homeworkScore &&
+				finalTestScore == student.finalTestScore &&
+				finalScore == student.finalScore &&
+				Objects.equals(studentId, student.studentId) &&
+				Objects.equals(name, student.name) &&
+				Objects.equals(password, student.password) &&
+				Objects.equals(list, student.list);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(studentId, name, password, attendenceScore, testScore, homeworkScore, finalTestScore, finalScore, list);
 	}
 }

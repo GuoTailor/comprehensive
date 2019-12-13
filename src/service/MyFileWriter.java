@@ -13,11 +13,13 @@ import view.MessageView;
 public class MyFileWriter implements Serializable {
 
 	private static HashMap<Student,ArrayList<Course>> map = MyFileReader.show();
+	private ArrayList<String> list = MyFileReader.getList();
 
     public void save(HashMap<Student,ArrayList<Course>> map) {
+        int num = 0;
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter("src/scorefile/16¼Æ»ú4°à³É¼¨.txt"));
-            for (String s : MyFileReader.getList()) {
+            for (String s : list) {
                 bw.write(s+",");
             }
             bw.newLine();
@@ -33,7 +35,7 @@ public class MyFileWriter implements Serializable {
                         bw.write(course.getCourseName() + "=" + course.getScore()+",");
                     }
 				}else {
-				    bw.write("null"+"="+0+",");
+				    bw.write(list.get(num++)+"="+0+",");
                 }
 				bw.newLine();
 			}
@@ -44,8 +46,9 @@ public class MyFileWriter implements Serializable {
 		}
     }
 
+
     public void addCourse (String name) {
-        MyFileReader.getList().add(name);
+        list.add(name);
         for (Map.Entry<Student,ArrayList<Course>> m:map.entrySet()) {
             m.getValue().add(new Course(name,0));
         }
@@ -53,7 +56,6 @@ public class MyFileWriter implements Serializable {
     }
 
     public void update(Student student){
-        ArrayList<String> list = MyFileReader.getList();
         ArrayList<Course> course = new ArrayList<>();
         for (String s : list) {
             course.add(new Course(s,0));
