@@ -25,7 +25,6 @@ public class MyFileWriter implements Serializable {
 				bw.write(student.getStudentId() + "," + student.getName() + "," + student.getAttendenceScore() + ","
 						+ student.getTestScore() + "," + student.getHomeworkScore() + ","
 						+ student.getFinalTestScore() + "," + student.getFinalScore());
-                System.out.println(1);
 				ArrayList<Course> list = m.getValue();
 				if (list != null) {
 					bw.write("#");
@@ -41,10 +40,6 @@ public class MyFileWriter implements Serializable {
 			e.printStackTrace();
 		}
     }
-
-	public static void main(String[] args){
-        new MyFileWriter().save(map);
-	}
 
 
     public void saveFile(File file, Course course, ArrayList<Student> students) {

@@ -40,7 +40,7 @@ public class AnalysisService {
 			else if (score >= 0 && score <= 59)
 				fail++;
 			else {
-				MessageView.createView("载入分数错误");
+				MessageView.createView("载入分数错误" + score);
 			}
 		}
 		analysisModel.setMax(max);

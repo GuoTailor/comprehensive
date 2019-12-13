@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -18,11 +19,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.beans.value.ObservableValue;
 
+import javafx.util.StringConverter;
 import model.*;
 import service.*;
 import view.*;
@@ -37,7 +40,6 @@ public class MainController implements Initializable {
     private Text status;
 
     private ArrayList<Student> students = null;
-    private Course course = null;
     private Analysis analysis = null;
     /*定义三个类的变量*/
 
@@ -78,7 +80,6 @@ public class MainController implements Initializable {
         fileLloader.setFile(MyFileChooser.chooseFile());/*读取文件*/
         if (fileLloader.getFile() != null) {
             try {
-                course = fileLloader.getFileCourse();/*读取文件中的课程信息*/
                 students = fileLloader.getFileStudents();/*读取文件中的学生信息*/
             } catch (NumberFormatException e) {
                 MessageView.createView("文件格式错误，请重新编排文件格式！");
@@ -145,14 +146,11 @@ public class MainController implements Initializable {
             MessageView.createView("学生信息未载入");
             return;
         }
-        if (course == null) {
-            MessageView.createView("课程信息未载入");
-            return;
-        }
         File file;
         file = MyFileChooser.chooseSaveFile(fileName);
         if (file != null) {
-            myFileWriter.saveFile(file, course, students);/*将数据输出到文件*/
+//            myFileWriter.saveFile(file, course, students);/*将数据输出到文件*/
+            myFileWriter.save(MyFileReader.show());
         }
     }
 
@@ -163,12 +161,9 @@ public class MainController implements Initializable {
             MessageView.createView("学生信息未载入");
             return;
         }
-        if (course == null) {
-            MessageView.createView("课程信息未载入");
-            return;
-        }
-        File file = new File(filePath);
-        myFileWriter.saveFile(file, course, students);
+//        File file = new File(filePath);
+//        myFileWriter.saveFile(file, course, students);
+        myFileWriter.save(MyFileReader.show());
     }
 
     @FXML
@@ -233,24 +228,25 @@ public class MainController implements Initializable {
 
     @FXML
     public void addItem(Event event) {
-		// get current position
-		TablePosition pos = studentView.getFocusModel().getFocusedCell();
+        // get current position
+        TablePosition pos = studentView.getFocusModel().getFocusedCell();
 
-		// clear current selection
-		studentView.getSelectionModel().clearSelection();
+        // clear current selection
+        studentView.getSelectionModel().clearSelection();
 
-		// create new record and add it to the model
-		Student data = new Student("", "", "");
-		studentView.getItems().add(data);
+        // create new record and add it to the model
+        Student data = new Student("", "", "");
+        studentView.getItems().add(data);
 
-		// get last row
-		int row = studentView.getItems().size() - 1;
-		studentView.getSelectionModel().select( row, pos.getTableColumn());
+        // get last row
+        int row = studentView.getItems().size() - 1;
+        studentView.getSelectionModel().select(row, pos.getTableColumn());
 
-		// scroll to new row
-		studentView.scrollTo(data);
-		System.out.println("add");
+        // scroll to new row
+        studentView.scrollTo(data);
+        System.out.println("add");
 //		new InsertStudent().updateFile(data);
+        ArrayList<Course> courses = new ArrayList<>();
         students.add(data);
     }
 
@@ -282,31 +278,18 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("init" + new File("./").getAbsolutePath());
-        MyFileReader fileLloader = new MyFileReader();
-        fileLloader.setFile(new File("./src/scorefile/16计机4班成绩.txt"));/*读取文件*/
-        if (fileLloader.getFile() != null) {
-            try {
-                course = fileLloader.getFileCourse();/*读取文件中的课程信息*/
-                students = fileLloader.getFileStudents();/*读取文件中的学生信息*/
-            } catch (NumberFormatException e) {
-                MessageView.createView("文件格式错误，请重新编排文件格式！");
-                e.printStackTrace();
-            }
-            if (students.size() != 0) {
-                ObservableList<Student> data = FXCollections
-                        .observableArrayList(students);
+        Map<Student, ArrayList<Course>> datas = MyFileReader.show();
 
-                AnalysisStudents(students);/*分析学生成绩*/
-                studentView.setItems(data);/*填充数据*/
-                status.setText(fileLloader.getFile().getPath() + "_共"
-                        + analysis.getTotalNum() + "人");
-                String temp = fileLloader.getFile().getName();
-                filePath = fileLloader.getFile().getPath();/*获取文件路径，后面修改文件使用*/
-                fileName = temp.substring(0, temp.lastIndexOf("."));
-            }
-        } else {
-            MessageView.createView("文件为空");
+        students = new ArrayList<>(datas.keySet());
+
+        if (students.size() != 0) {
+            ObservableList<Student> data = FXCollections.observableArrayList(students);
+
+            AnalysisStudents(students);/*分析学生成绩*/
+            studentView.setItems(data);/*填充数据*/
+            status.setText("_共" + analysis.getTotalNum() + "人");
         }
+
         tableViewinitialize();
         searchBox.setEventHandler(new EventHandler<ActionEvent>() {
             @Override
@@ -356,15 +339,8 @@ public class MainController implements Initializable {
         homeworkScore.setEditable(true);
         finalTestScore.setEditable(true);
 
-        Callback<TableColumn<Student, String>, TableCell<Student, String>> cellFactoryString = new Callback<TableColumn<Student, String>, TableCell<Student, String>>() {
-            public TableCell<Student, String> call(
-                    TableColumn<Student, String> p) {
-                return new PersonEditingCell();
-            }
-        };
 
-
-        studentId.setCellFactory(cellFactoryString);/*监听表格学生信息并修改对象数据*/
+        studentId.setCellFactory(TextFieldTableCell.forTableColumn());/*监听表格学生信息并修改对象数据*/
         studentId.setOnEditCommit(new EventHandler<CellEditEvent<Student, String>>() {
             @Override
             public void handle(CellEditEvent<Student, String> score) {
@@ -375,7 +351,7 @@ public class MainController implements Initializable {
             }
         });
 
-        name.setCellFactory(cellFactoryString);
+        name.setCellFactory(TextFieldTableCell.forTableColumn());
         name.setOnEditCommit(new EventHandler<CellEditEvent<Student, String>>() {
             @Override
             public void handle(CellEditEvent<Student, String> info) {
@@ -386,14 +362,22 @@ public class MainController implements Initializable {
             }
         });
 
-        Callback<TableColumn<Student, Integer>, TableCell<Student, Integer>> cellFactoryInt = new Callback<TableColumn<Student, Integer>, TableCell<Student, Integer>>() {
-            public TableCell<Student, Integer> call(
-                    TableColumn<Student, Integer> p) {
-                return new ScoreEditingCell();
+        Callback<TableColumn<Student, Integer>, TableCell<Student, Integer>> cellFactoryInteger = TextFieldTableCell.forTableColumn(new StringConverter<Integer>() {
+            @Override
+            public String toString(Integer object) {
+                return (object != null) ? object.toString() : "";
             }
-        };
 
-        attendenceScore.setCellFactory(cellFactoryInt);
+            @Override
+            public Integer fromString(String string) {
+                if (string == null || string.isEmpty()) {
+                    return 0;
+                }
+                return Integer.parseInt(string);
+            }
+        });
+
+        attendenceScore.setCellFactory(cellFactoryInteger);
         attendenceScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
             @Override
             public void handle(CellEditEvent<Student, Integer> score) {
@@ -402,12 +386,11 @@ public class MainController implements Initializable {
                         .getNewValue());
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setFinalScore();
-                tableViewinitialize();
-                AnalysisStudents(students);/*重新分析学生成绩，实时更新各项数据*/
+                reload();
             }
         });
 
-        homeworkScore.setCellFactory(cellFactoryInt);
+        homeworkScore.setCellFactory(cellFactoryInteger);
         homeworkScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
             @Override
             public void handle(CellEditEvent<Student, Integer> score) {
@@ -416,12 +399,11 @@ public class MainController implements Initializable {
                         .getNewValue());
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setFinalScore();
-                tableViewinitialize();
-                AnalysisStudents(students);
+                reload();
             }
         });
 
-        finalTestScore.setCellFactory(cellFactoryInt);
+        finalTestScore.setCellFactory(cellFactoryInteger);
         finalTestScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
             @Override
             public void handle(CellEditEvent<Student, Integer> score) {
@@ -430,12 +412,11 @@ public class MainController implements Initializable {
                         .getNewValue());
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setFinalScore();
-                tableViewinitialize();
-                AnalysisStudents(students);
+                reload();
             }
         });
 
-        testScore.setCellFactory(cellFactoryInt);
+        testScore.setCellFactory(cellFactoryInteger);
         testScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
             @Override
             public void handle(CellEditEvent<Student, Integer> score) {
@@ -444,10 +425,7 @@ public class MainController implements Initializable {
                         .getNewValue());
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setFinalScore();
-                //tableViewinitialize();
-                //AnalysisStudents(students);
-                studentView.getColumns().clear();
-                studentView.getColumns().addAll(studentId, name, attendenceScore, testScore, homeworkScore, finalTestScore, finalScore);
+                reload();
             }
         });
 
@@ -455,4 +433,9 @@ public class MainController implements Initializable {
 
     }
 
+    private void reload() {
+        AnalysisStudents(students);
+        studentView.getColumns().clear();
+        studentView.getColumns().addAll(studentId, name, attendenceScore, testScore, homeworkScore, finalTestScore, finalScore);
+    }
 }
