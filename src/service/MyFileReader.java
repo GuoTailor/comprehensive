@@ -1,15 +1,9 @@
 package service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
+import com.sun.xml.internal.ws.util.QNameMap;
 import model.Course;
 import model.Student;
 import view.MessageView;
@@ -24,6 +18,93 @@ public class MyFileReader {
 	ArrayList<Student> students = new ArrayList<Student>();
 	Course course;
 	Object firstLine;
+
+	private static HashMap<Student, ArrayList<Course>> map = new HashMap<>();
+	private static ArrayList<Course> list = new ArrayList<>();
+	static {
+		try {
+			BufferedReader bf = new BufferedReader(new FileReader("src/scorefile/16¼Æ»ú4°à³É¼¨.txt"));
+			String message = bf.readLine();
+			while (message != null) {
+				System.out.println(message);
+				String s [] = message.split("#");
+				if (s.length == 2) {
+					String stu [] = s[0].split(",");
+					Student student = new Student(stu[0],stu[1],Integer.parseInt(stu[2]),Integer.parseInt(stu[3])
+							, Integer.parseInt(stu[4]),Integer.parseInt(stu[5]),0);
+					String [] cou = s[1].split(",");
+					for (String c:cou) {
+						String [] course = c.split("=");
+						list.add(new Course(course[0],Integer.parseInt(course[1])));
+					}
+					map.put(student,list);
+					message = bf.readLine();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static HashMap<Student,ArrayList<Course>> show () {
+		return map;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//====================================================================
 
 	public File getFile() {
 		return file;
@@ -106,7 +187,7 @@ public class MyFileReader {
 				if((line = br.readLine()) != null) {
 					String[]obj = line.split(",");
 					if(obj.length == 3) {
-						course = new Course(obj[0], obj[1], obj[2]);
+						course = new Course(obj[0],Integer.parseInt(obj[1]));
 				}
 				
 				}

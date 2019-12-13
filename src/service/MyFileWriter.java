@@ -24,7 +24,7 @@ public class MyFileWriter implements Serializable{
 			if (file.getName().toLowerCase().endsWith(".txt")) {
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "GBK"));
 
-				bw.write(course.getCourseName() + "," + course.getCourseTeacher() + "," + course.getCourseClass());
+				bw.write(course.getCourseName() + "," + course.getScore());
 				bw.newLine();
 
 				for (Student student : students) {

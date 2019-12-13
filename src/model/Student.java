@@ -111,6 +111,15 @@ public class Student implements Serializable, Cloneable{
 
 	@Override
 	public String toString() {
-		return studentId + name + finalScore;
+		return "Student{" +
+				"studentId='" + studentId + '\'' +
+				", name='" + name + '\'' +
+				", password='" + password + '\'' +
+				", attendenceScore=" + attendenceScore +
+				", testScore=" + testScore +
+				", homeworkScore=" + homeworkScore +
+				", finalTestScore=" + finalTestScore +
+				", finalScore=" + finalScore +
+				'}';
 	}
 }

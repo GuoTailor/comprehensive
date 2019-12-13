@@ -155,7 +155,7 @@ public class StudentController implements Initializable {
 
         courseName.setText(course.getCourseName());
 //        courseTeacher.setText(course.getCourseTeacher());
-        courseClass.setText(course.getCourseClass());
+//        courseClass.setText(course.getCourseClass());
     }
 
     @FXML
@@ -273,19 +273,19 @@ public class StudentController implements Initializable {
             }
         });
         /*监听文本域课程信息并修改课程对象属性*/
-        courseTeacher.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                course.setCourseTeacher(courseTeacher.getText());
-            }
-        });
-
-        courseClass.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                course.setCourseClass(courseClass.getText());
-            }
-        });
+//        courseTeacher.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//                course.setCourseTeacher(courseTeacher.getText());
+//            }
+//        });
+//
+//        courseClass.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//                course.setCourseClass(courseClass.getText());
+//            }
+//        });
     }
 
 }

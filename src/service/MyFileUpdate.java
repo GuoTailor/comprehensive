@@ -30,9 +30,7 @@ public class MyFileUpdate implements Serializable{
 				bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "GBK"));
 				
 					
-						bw.write(course.getCourseName() + ","
-								+ course.getCourseTeacher() + ","
-								+ course.getCourseClass());
+						bw.write(course.getCourseName() + "," + course.getScore());
 						bw.newLine();
 						/*先写入课程信息*/
 					for (Student student : students) {

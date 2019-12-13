@@ -11,47 +11,42 @@ import java.io.Serializable;
  */
 public class Course implements Serializable, Cloneable {
 	private String courseName;
-	private String courseTeacher;
-	private String courseClass;
+	private Integer score;
 	
-	public Course(String courseName, String courseTeacher, String courseClass) {
+	public Course(String courseName, Integer score) {
 		this.courseName = courseName;
-		this.courseTeacher = courseTeacher;
-		this.courseClass = courseClass;
+		this.score = score;
 	}
-	
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+
 	public String getCourseName() {
 		return courseName;
 	}
-	
-	public String getCourseTeacher() {
-		return courseTeacher;
-	}
-	
-	public String getCourseClass() {
-		return courseClass;
-	}
+
 	
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-	
-	public void setCourseTeacher(String courseTeacher) {
-		this.courseTeacher = courseTeacher;
-	}
-	
-	public void setCourseClass(String courseClass) {
-		this.courseClass = courseClass;
-	}
+
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		Course course = new Course(this.courseName, this.courseTeacher, this.courseClass);
+		Course course = new Course(this.courseName, this.score);
 		return course;
 	}
 
 	@Override
 	public String toString() {
-		return courseName + courseTeacher + courseClass;
+		return "Course{" +
+				"courseName='" + courseName + '\'' +
+				", score=" + score +
+				'}';
 	}
 }
