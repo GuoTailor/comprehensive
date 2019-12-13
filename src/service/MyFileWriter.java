@@ -81,8 +81,6 @@ public class MyFileWriter implements Serializable {
 
     public int get(Student student, String courseName) {
         ArrayList<Course> lis = map.get(student);
-        map.forEach((K, V) -> System.out.println(K + " " + V));
-        System.out.println(student);
         for (Course course : lis) {
             if (courseName.equals(course.getCourseName())) {
                 return course.getScore();
