@@ -20,19 +20,19 @@ public class MyFileReader {
 	Object firstLine;
 
 	private static HashMap<Student, ArrayList<Course>> map = new HashMap<>();
-	private static ArrayList<Course> list = new ArrayList<>();
 	static {
 		try {
 			BufferedReader bf = new BufferedReader(new FileReader("src/scorefile/16¼Æ»ú4°à³É¼¨.txt"));
 			String message = bf.readLine();
 			while (message != null) {
-				System.out.println(message);
 				String s [] = message.split("#");
 				if (s.length == 2) {
 					String stu [] = s[0].split(",");
 					Student student = new Student(stu[0],stu[1],Integer.parseInt(stu[2]),Integer.parseInt(stu[3])
 							, Integer.parseInt(stu[4]),Integer.parseInt(stu[5]),0);
 					String [] cou = s[1].split(",");
+					//name=0,  f=0  ,
+					ArrayList<Course> list = new ArrayList<>();
 					for (String c:cou) {
 						String [] course = c.split("=");
 						list.add(new Course(course[0],Integer.parseInt(course[1])));
@@ -41,6 +41,7 @@ public class MyFileReader {
 					message = bf.readLine();
 				}
 			}
+			bf.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,58 +50,6 @@ public class MyFileReader {
 	public static HashMap<Student,ArrayList<Course>> show () {
 		return map;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
