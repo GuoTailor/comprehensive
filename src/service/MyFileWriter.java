@@ -34,7 +34,7 @@ public class MyFileWriter implements Serializable {
                 if (list != null) {
                     bw.write("#");
                     for (Course course : list) {
-                        bw.write(course.getCourseName() + "=" + course.getScore()+ "=" + course.getCourseId() + "="
+                        bw.write(course.getCourseName() + "=" + course.getScore() + "=" + course.getCourseId() + "="
                                 + course.getStudyTime() + "=" + course.getStudyScore() + ",");
                     }
                 } else {
@@ -105,14 +105,20 @@ public class MyFileWriter implements Serializable {
 //        }
     }
 
-    public void alter(Student student, String courseName, String score) {
+    public void alter(Student student, String courseName, String courseInfo, String result) {
         ArrayList<Course> lis = map.get(student);
         for (Course course : lis) {
             if (courseName.equals(course.getCourseName())) {
-                try {
-                    course.setScore(Integer.parseInt(score));
-                } catch (NumberFormatException e) {
-                    System.err.println("!«Î ‰»Î ˝◊÷!");
+                if (courseInfo.equals(course.getCourseName())) {
+                    course.setCourseName(result);
+                } else if (courseInfo.equals(course.getScore())) {
+                    course.setScore(Integer.parseInt(result));
+                } else if (courseInfo.equals(course.getStudyTime())) {
+                    course.setStudyTime(Integer.parseInt(result));
+                } else if (courseInfo.equals(course.getCourseId())) {
+                    course.setCourseId(result);
+                } else {
+                    course.setStudyScore(Integer.parseInt(result));
                 }
             }
         }
