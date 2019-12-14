@@ -18,6 +18,9 @@ public class Course implements Serializable, Cloneable {
 		this.score = score;
 	}
 
+	public Course() {
+	}
+
 	public Integer getScore() {
 		return score;
 	}

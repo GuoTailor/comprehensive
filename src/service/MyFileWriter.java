@@ -47,16 +47,25 @@ public class MyFileWriter implements Serializable {
         }
     }
 
-
-    public void addCourse(String name) {
-        list.add(name);
+    /**
+     * @param option true代表添加课程  false代表删除
+     * @param name   添加或者修改的课程名字
+     */
+    public void isDeleteOrAddCourse(boolean option, String name) {
         for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
-            m.getValue().add(new Course(name, 0));
+            if (option) {//true
+                list.add(name);
+                m.getValue().add(new Course(name, 0));
+            }else {//false
+                list.remove(name);
+                ArrayList<Course> courses = m.getValue();
+                courses.removeIf(course -> name.equals(course.getCourseName()));
+            }
         }
         this.save(map);
     }
 
-    public void delete(Student student){
+    public void delete(Student student) {
         map.remove(student);
     }
 
