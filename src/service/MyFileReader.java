@@ -38,13 +38,15 @@ public class MyFileReader {
 				if (s.length == 2) {
 
 					String stu [] = s[0].split(",");
-					Student student = new Student(stu[0],stu[1],Integer.parseInt(stu[2]),0);
+					Student student = new Student(stu[0],stu[1],stu[2],
+							Integer.parseInt(stu[3]),0);
 					String [] cou = s[1].split(",");
 					//name=0,  f=0  ,
 					ArrayList<Course> list = new ArrayList<>();
 					for (String c:cou) {
 						String [] course = c.split("=");
-						list.add(new Course(course[0],Integer.parseInt(course[1])));
+						list.add(new Course(course[0], Integer.parseInt(course[1]),course[2],
+								Integer.parseInt(course[3]),Integer.parseInt(course[4])));
 					}
 					map.put(student,list);
 					num++;
@@ -89,9 +91,9 @@ public class MyFileReader {
 				if((line = br.readLine()) != null) {
 					while ((line = br.readLine()) != null) {
 						String[]obj = line.split(",");/*以“，”分割*/
-						if (obj.length == 4) {
-							Student student = new Student(obj[0], obj[1],
-									Integer.parseInt(obj[2]),Integer.parseInt(obj[3]));
+						if (obj.length == 5) {
+							Student student = new Student(obj[0], obj[1],obj[2],
+									Integer.parseInt(obj[3]),Integer.parseInt(obj[4]));
 							students.add(student);
 						}
 				}
@@ -130,64 +132,6 @@ public class MyFileReader {
 				e.printStackTrace();
 			}
 			return students;
-		} else {
-			MessageView.createView("文件后缀名错误！");
-		}
-		return null;
-	}
-	
-	@SuppressWarnings("unchecked")  
-	/*读取课程信息存储在course中*/
-	public Course getFileCourse() throws NumberFormatException {
-		if (file.getName().toLowerCase().endsWith(".txt")) {
-			try {
-				BufferedReader br = null;
-				br = new BufferedReader(new InputStreamReader(
-						new FileInputStream(file), "GBK"));
-				String line = null;
-				if((line = br.readLine()) != null) {
-					String[]obj = line.split(",");
-					if(obj.length == 3) {
-						course = new Course(obj[0],Integer.parseInt(obj[1]));
-				}
-				
-				}
-				br.close();
-				if(course == null)
-					MessageView.createView("课程信息未载入!");
-			} catch (FileNotFoundException e) {
-				MessageView.createView("找不到文件!");
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				MessageView.createView("不支持GBK编码错误");
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ArrayIndexOutOfBoundsException e) {
-				MessageView.createView("txt文件内容格式错误");
-				e.printStackTrace();
-			}
-			return course;
-		} else if (file.getName().toLowerCase().endsWith(".dat")) {
-			FileInputStream fis = null;
-			try {
-				fis = new FileInputStream(file);
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				if((firstLine= ois.readObject()) instanceof Course){
-					course = (Course)firstLine;
-				};
-				students = (ArrayList<Student>) ois.readObject();
-				ois.close();
-				MessageView.createView("读取成功!");
-			} catch (FileNotFoundException e) {
-				MessageView.createView("找不到文件!");
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			return course;
 		} else {
 			MessageView.createView("文件后缀名错误！");
 		}

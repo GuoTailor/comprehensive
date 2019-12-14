@@ -8,9 +8,6 @@ import model.Course;
 import model.Student;
 import view.MessageView;
 
-/**
- * @author pinnuli
- */
 public class MyFileWriter implements Serializable {
     public static final MyFileWriter instance = new MyFileWriter();
 
@@ -37,10 +34,11 @@ public class MyFileWriter implements Serializable {
                 if (list != null) {
                     bw.write("#");
                     for (Course course : list) {
-                        bw.write(course.getCourseName() + "=" + course.getScore() + ",");
+                        bw.write(course.getCourseName() + "=" + course.getScore() + course.getCourseId() + "="
+                                + course.getStudyTime() + "=" + course.getStudyScore() + ",");
                     }
                 } else {
-                    bw.write(this.list.get(num++) + "=" + 0 + ",");
+                    bw.write(this.list.get(num++) + "=" + "0" + "=" + "0" + "=" + 0 + "=" + "0" + ",");
                 }
                 bw.newLine();
             }
@@ -79,7 +77,7 @@ public class MyFileWriter implements Serializable {
 
         for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
             if (option) {//true
-                m.getValue().add(new Course(name, 0));
+                m.getValue().add(new Course(name, 0, "0", 0, 0));
             } else {//false
                 m.getValue().removeIf(new Predicate<Course>() {
                     @Override
@@ -99,7 +97,7 @@ public class MyFileWriter implements Serializable {
     public void update(Student student) {
         ArrayList<Course> course = new ArrayList<>();
         for (String s : list) {
-            course.add(new Course(s, 0));
+            course.add(new Course(s, 0, "0", 0, 0));
         }
         map.put(student, course);
 //        for (int i = 0;i < list.size();i++) {
@@ -129,4 +127,15 @@ public class MyFileWriter implements Serializable {
         }
         return 0;
     }
+
+//    public Course getScoreInfo(Student student, String courseName) {
+//        ArrayList<Course> lis = map.get(student);
+//        for (Course course : lis) {
+//            if (courseName.equals(course.getCourseName())) {
+//                return new Course(course.getCourseName(),course.getScore(),course.getCourseId(),course.getStudyTime(),course.getStudyScore());
+//            }
+//        }
+//        return null;
+//    }
+
 }

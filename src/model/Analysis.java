@@ -3,10 +3,7 @@
  */
 package model;
 
-/**
- * @author pinnuli
- *
- */
+
 public class Analysis {
 
 	private int max;
