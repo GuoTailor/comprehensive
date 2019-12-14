@@ -59,7 +59,13 @@ public class MyFileWriter implements Serializable {
      */
     public void isDeleteOrAddCourse(boolean option, String name) {
         boolean flag = true;
+        boolean b = true;
         for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
+            for (Course course : m.getValue()) {
+                if (name.equals(course.getCourseName())) {
+                    return;
+                }
+            }
             if (option) {//true
                 if (flag) {
                     list.add(name);
@@ -72,7 +78,7 @@ public class MyFileWriter implements Serializable {
                     flag = false;
                 }
                 ArrayList<Course> courses = m.getValue();
-                courses.removeIf(new Predicate<Course>() {
+                b = courses.removeIf(new Predicate<Course>() {
                     @Override
                     public boolean test(Course course) {
                         return name.equals(course.getCourseName());
@@ -80,7 +86,9 @@ public class MyFileWriter implements Serializable {
                 });
             }
         }
-        this.save(map);
+        if (b){
+            this.save(map);
+        }
     }
 
     public void delete(Student student) {
