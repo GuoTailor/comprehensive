@@ -1,12 +1,7 @@
 package service;
 
-import model.Course;
 import model.Student;
-import model.Teacher;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class LoginServer {
     private ReadTeacherAndStudent readTeacher = new ReadTeacherAndStudent();

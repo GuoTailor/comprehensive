@@ -34,7 +34,7 @@ public class MyFileWriter implements Serializable {
                 if (list != null) {
                     bw.write("#");
                     for (Course course : list) {
-                        bw.write(course.getCourseName() + "=" + course.getScore() + course.getCourseId() + "="
+                        bw.write(course.getCourseName() + "=" + course.getScore()+ "=" + course.getCourseId() + "="
                                 + course.getStudyTime() + "=" + course.getStudyScore() + ",");
                     }
                 } else {
