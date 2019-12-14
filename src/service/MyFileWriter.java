@@ -109,13 +109,11 @@ public class MyFileWriter implements Serializable {
         ArrayList<Course> lis = map.get(student);
         for (Course course : lis) {
             if (courseName.equals(course.getCourseName())) {
-                if (courseInfo.equals(course.getCourseName())) {
-                    course.setCourseName(result);
-                } else if (courseInfo.equals(course.getScore())) {
+                if ("分数".equals(courseInfo)) {
                     course.setScore(Integer.parseInt(result));
-                } else if (courseInfo.equals(course.getStudyTime())) {
+                } else if ("学时".equals(courseInfo)) {
                     course.setStudyTime(Integer.parseInt(result));
-                } else if (courseInfo.equals(course.getCourseId())) {
+                } else if ("课程号".equals(courseInfo)) {
                     course.setCourseId(result);
                 } else {
                     course.setStudyScore(Integer.parseInt(result));
