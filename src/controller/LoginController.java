@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import service.LoginServer;
 import view.Main;
@@ -42,27 +44,37 @@ public class LoginController implements Initializable {
     }
 
     private void initView() {
-
+        password.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    onLong();
+                }
+            }
+        });
         login.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String name = userName.getText();
-                String passwordd = password.getText();
-                //从单选框得到是学生还是老师(path = teacher  or  student)
-                String path = "src/scorefile/" + (teacherButton.isSelected() ? teacherButton.getUserData() : studentButton.getUserData()) + ".txt";
-                System.out.println(path);
-                LoginServer.Login message = new LoginServer().login(name, passwordd, path);
-                if (teacherButton.isSelected() && message.isLogin) {
-                    startTeacher();
-                } else if (studentButton.isSelected() && message.isLogin) {
-                    startStudent(message.mag);
-                } else {
-                    //弹出对话框
-                    MessageView.createView(message.mag);
-                }
-
+                onLong();
             }
         });
+    }
+
+    public void onLong() {
+        String name = userName.getText();
+        String passwordd = password.getText();
+        //从单选框得到是学生还是老师(path = teacher  or  student)
+        String path = "src/scorefile/" + (teacherButton.isSelected() ? teacherButton.getUserData() : studentButton.getUserData()) + ".txt";
+        System.out.println(path);
+        LoginServer.Login message = new LoginServer().login(name, passwordd, path);
+        if (teacherButton.isSelected() && message.isLogin) {
+            startTeacher();
+        } else if (studentButton.isSelected() && message.isLogin) {
+            startStudent(message.mag);
+        } else {
+            //弹出对话框
+            MessageView.createView(message.mag);
+        }
     }
 
     public void startStudent(String name) {

@@ -22,7 +22,7 @@ public class MyFileWriter implements Serializable {
      *
      * @param map
      */
-    public void save(HashMap<Student, ArrayList<Course>> map) {
+    public boolean save(HashMap<Student, ArrayList<Course>> map) {
         int num = 0;
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("src/scorefile/16计机4班成绩.txt"));
@@ -50,35 +50,38 @@ public class MyFileWriter implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
             MessageView.createView("保存失败!");
+            return false;
         }
+        return true;
     }
 
     /**
      * @param option true代表添加课程  false代表删除
      * @param name   添加或者修改的课程名字
      */
-    public void isDeleteOrAddCourse(boolean option, String name) {
-        boolean flag = true;
-        boolean b = true;
-        for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
-            for (Course course : m.getValue()) {
-                if (name.equals(course.getCourseName())) {
-                    return;
-                }
+    public boolean isDeleteOrAddCourse(boolean option, String name) {
+        boolean flag = false;
+        for (String subject : list) {
+            if (name.equals(subject) && option) {
+                return false;
             }
+            if (name.equals(subject)) {
+                flag = true;
+                break;
+            }
+        }
+        if (option)
+            list.add(name);
+        else if (flag)
+            list.remove(name);
+        else
+            return false;
+
+        for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
             if (option) {//true
-                if (flag) {
-                    list.add(name);
-                    flag = false;
-                }
                 m.getValue().add(new Course(name, 0));
             } else {//false
-                if (flag) {
-                    list.remove(name);
-                    flag = false;
-                }
-                ArrayList<Course> courses = m.getValue();
-                b = courses.removeIf(new Predicate<Course>() {
+                m.getValue().removeIf(new Predicate<Course>() {
                     @Override
                     public boolean test(Course course) {
                         return name.equals(course.getCourseName());
@@ -86,9 +89,7 @@ public class MyFileWriter implements Serializable {
                 });
             }
         }
-        if (b){
-            this.save(map);
-        }
+        return this.save(map);
     }
 
     public void delete(Student student) {

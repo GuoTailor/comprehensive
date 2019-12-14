@@ -245,17 +245,25 @@ public class MainController implements Initializable {
     @FXML
     private void addSubject() {
         String subject = new AlertBox().show();
-        MyFileWriter.instance.isDeleteOrAddCourse(true, subject);
-        tableColumnList.clear();
-        tableViewinitialize();
+        boolean l = MyFileWriter.instance.isDeleteOrAddCourse(true, subject);
+        if (l) {
+            tableColumnList.clear();
+            tableViewinitialize();
+        } else {
+            MessageView.createView("添加失败，可能重复!");
+        }
     }
 
     @FXML
     private void deleteSubject() {
         String subject = new AlertBox().show();
-        MyFileWriter.instance.isDeleteOrAddCourse(false, subject);
-        tableColumnList.clear();
-        tableViewinitialize();
+        boolean l = MyFileWriter.instance.isDeleteOrAddCourse(false, subject);
+        if (l) {
+            tableColumnList.clear();
+            tableViewinitialize();
+        } else {
+            MessageView.createView("删除失败，可能没有!");
+        }
     }
 
     @FXML
