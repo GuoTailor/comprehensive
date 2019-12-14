@@ -219,6 +219,7 @@ public class MainController implements Initializable {
         System.out.println(sheet);
         studentView.getItems().remove(sheet);
         students.remove(sheet);
+        MyFileWriter.instance.delete(sheet);
     }
 
     @FXML
@@ -238,11 +239,11 @@ public class MainController implements Initializable {
         studentView.getSelectionModel().select(row, pos.getTableColumn());
 
         // scroll to new row
-        studentView.scrollTo(data);
-        System.out.println("add");
+        System.out.println("add " + data.hashCode());
 //		new InsertStudent().updateFile(data);
         students.add(data);
         MyFileWriter.instance.update(data);
+        studentView.scrollTo(data);
     }
 
     @FXML
@@ -426,13 +427,22 @@ public class MainController implements Initializable {
         MyFileReader.getList().forEach(System.out::println);
         for (String str: MyFileReader.getList()) {
             TableColumn<Student, Integer> item = new TableColumn<>(str);
+            item.setEditable(true);
             item.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
                 @Override
                 public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
                     return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.get(param.getValue(), str));
                 }
             });
-            item.setEditable(true);
+            item.setCellFactory(cellFactoryInteger);
+            item.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
+                @Override
+                public void handle(CellEditEvent<Student, Integer> score) {
+                    MyFileWriter.instance.alter(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                    reload();
+                }
+            });
             item.setPrefWidth(60);
             tableColumnList.add(item);
         }

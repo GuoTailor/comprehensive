@@ -55,6 +55,10 @@ public class MyFileWriter implements Serializable {
         this.save(map);
     }
 
+    public void delete(Student student){
+        map.remove(student);
+    }
+
     public void update(Student student) {
         ArrayList<Course> course = new ArrayList<>();
         for (String s : list) {
@@ -81,6 +85,12 @@ public class MyFileWriter implements Serializable {
 
     public int get(Student student, String courseName) {
         ArrayList<Course> lis = map.get(student);
+        if (lis == null) {
+            map.forEach((k, v) -> {
+                if (k.getStudentId().equals(student.getStudentId())) System.out.println("--- " + k.hashCode());
+            });
+            System.out.println(student.hashCode());
+        }
         for (Course course : lis) {
             if (courseName.equals(course.getCourseName())) {
                 return course.getScore();
