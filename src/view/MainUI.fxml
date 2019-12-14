@@ -58,6 +58,7 @@
             <Tab text="数据分析">
                 <VBox id="analysisOfData" >
                     <Pane >
+                        <ComboBox fx:id="cb"/>
                         <Text layoutX="25.0" layoutY="58.0" strokeType="OUTSIDE"
                               strokeWidth="0.0" text="最高分"/>
                         <Text layoutX="25.0" layoutY="98.0" strokeType="OUTSIDE"

@@ -74,11 +74,14 @@ public class MainController implements Initializable {
     private TextField failPercentage;
 
     @FXML
+    private ComboBox<String> cb;
+
+    @FXML
     private SearchBox searchBox;
 
-    private void AnalysisStudents(ArrayList<Student> students) {
+    private void AnalysisStudents(ArrayList<Student> students, String courseName) {
         AnalysisService analysisService = new AnalysisService();
-        analysis = analysisService.analyseFile(students.get(0), "java");
+        analysis = analysisService.analyseFile(students.get(0), courseName);
 
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
@@ -238,6 +241,10 @@ public class MainController implements Initializable {
         }
     }
 
+    private void onChoice(String subject) {
+        AnalysisStudents(students, subject);
+    }
+
     @FXML
     private void clearTable() {
         max.setText("");
@@ -273,7 +280,7 @@ public class MainController implements Initializable {
         if (students.size() != 0) {
             ObservableList<Student> data = FXCollections.observableArrayList(students);
 
-            AnalysisStudents(students);/*分析学生成绩*/
+            AnalysisStudents(students, MyFileReader.getList().get(0));/*分析学生成绩*/
             studentView.setItems(data);/*填充数据*/
             status.setText("_共" + analysis.getTotalNum() + "人");
         }
@@ -289,6 +296,15 @@ public class MainController implements Initializable {
     }
 
     private void tableViewinitialize() {
+        cb.setItems(FXCollections.observableArrayList(MyFileReader.getList()));
+        cb.setValue(MyFileReader.getList().get(0));
+        cb.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue observable, String oldValue, String newValue) {
+                onChoice(newValue);
+            }
+        });
+
         studentId.setCellValueFactory(new PropertyValueFactory<>("studentId"));
         studentId.setPrefWidth(125);/*设置表格初始化*/
 
@@ -367,7 +383,7 @@ public class MainController implements Initializable {
         tableColumnList.add(studentId);
         tableColumnList.add(name);
         tableColumnList.add(attendenceScore);
-        for (String str: MyFileReader.getList()) {
+        for (String str : MyFileReader.getList()) {
             TableColumn<Student, TableColumn<Student, Course>> item = new TableColumn<>(str);
 
             TableColumn<Student, String> courseId = new TableColumn<>("课程号");
@@ -388,7 +404,7 @@ public class MainController implements Initializable {
                 @Override
                 public void handle(CellEditEvent<Student, String> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
-                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                            .get(score.getTablePosition().getRow()), str, "课程号", score.getNewValue());
                     reload();
                 }
             });
@@ -398,7 +414,7 @@ public class MainController implements Initializable {
             studyTime.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
                 @Override
                 public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
-                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getStudyTime());
+                    return (ObservableValue) new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getStudyTime());
                 }
             });
             studyTime.setCellFactory(cellFactoryInteger);
@@ -406,7 +422,7 @@ public class MainController implements Initializable {
                 @Override
                 public void handle(CellEditEvent<Student, Integer> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
-                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                            .get(score.getTablePosition().getRow()), str, "学时数", score.getNewValue().toString());
                     reload();
                 }
             });
@@ -416,7 +432,7 @@ public class MainController implements Initializable {
             studyScore.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
                 @Override
                 public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
-                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getStudyScore());
+                    return (ObservableValue) new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getStudyScore());
                 }
             });
             studyScore.setCellFactory(cellFactoryInteger);
@@ -424,7 +440,7 @@ public class MainController implements Initializable {
                 @Override
                 public void handle(CellEditEvent<Student, Integer> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
-                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                            .get(score.getTablePosition().getRow()), str, "学分", score.getNewValue().toString());
                     reload();
                 }
             });
@@ -434,7 +450,7 @@ public class MainController implements Initializable {
             score.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
                 @Override
                 public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
-                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getScore());
+                    return (ObservableValue) new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getScore());
                 }
             });
             score.setCellFactory(cellFactoryInteger);
@@ -442,7 +458,7 @@ public class MainController implements Initializable {
                 @Override
                 public void handle(CellEditEvent<Student, Integer> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
-                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                            .get(score.getTablePosition().getRow()), str, "得分", score.getNewValue().toString());
                     reload();
                 }
             });
@@ -454,7 +470,7 @@ public class MainController implements Initializable {
     }
 
     private void reload() {
-        AnalysisStudents(students);
+        AnalysisStudents(students, MyFileReader.getList().get(0));
         studentView.getColumns().clear();
         studentView.getColumns().addAll(tableColumnList);
     }
