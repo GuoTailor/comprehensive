@@ -5,6 +5,7 @@ import java.util.*;
 
 import model.Course;
 import model.Student;
+import view.MessageView;
 
 /**
  * @author pinnuli
@@ -41,8 +42,10 @@ public class MyFileWriter implements Serializable {
             }
             bw.flush();
             bw.close();
+            MessageView.createView("保存成功!");
         } catch (IOException e) {
             e.printStackTrace();
+            MessageView.createView("保存失败!");
         }
     }
 
