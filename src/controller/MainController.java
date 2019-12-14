@@ -179,9 +179,6 @@ public class MainController implements Initializable {
     public TableColumn<Student, String> studentId = new TableColumn<>("学号");
     public TableColumn<Student, String> name = new TableColumn<>("姓名");
     public TableColumn<Student, Integer> attendenceScore = new TableColumn<>("考勤");
-    public TableColumn<Student, Integer> testScore = new TableColumn<>("测验");
-    public TableColumn<Student, Integer> homeworkScore = new TableColumn<>("作业");
-    public TableColumn<Student, Integer> finalTestScore = new TableColumn<>("期末");
     public TableColumn<Student, Integer> finalScore = new TableColumn<>("总评");
 
     @FXML
@@ -239,11 +236,26 @@ public class MainController implements Initializable {
         studentView.getSelectionModel().select(row, pos.getTableColumn());
 
         // scroll to new row
-        System.out.println("add " + data.hashCode());
 //		new InsertStudent().updateFile(data);
         students.add(data);
         MyFileWriter.instance.update(data);
         studentView.scrollTo(data);
+    }
+
+    @FXML
+    private void addSubject() {
+        String subject = new AlertBox().show();
+        MyFileWriter.instance.isDeleteOrAddCourse(true, subject);
+        tableColumnList.clear();
+        tableViewinitialize();
+    }
+
+    @FXML
+    private void deleteSubject() {
+        String subject = new AlertBox().show();
+        MyFileWriter.instance.isDeleteOrAddCourse(false, subject);
+        tableColumnList.clear();
+        tableViewinitialize();
     }
 
     @FXML
@@ -306,15 +318,6 @@ public class MainController implements Initializable {
         attendenceScore.setCellValueFactory(new PropertyValueFactory<>("attendenceScore"));
         attendenceScore.setPrefWidth(60);
 
-        testScore.setCellValueFactory(new PropertyValueFactory<>("testScore"));
-        testScore.setPrefWidth(60);
-
-        homeworkScore.setCellValueFactory(new PropertyValueFactory<>("homeworkScore"));
-        homeworkScore.setPrefWidth(60);
-
-        finalTestScore.setCellValueFactory(new PropertyValueFactory<>("finalTestScore"));
-        finalTestScore.setPrefWidth(61);
-
         finalScore.setCellValueFactory(new PropertyValueFactory<>("finalScore"));
         finalScore.setPrefWidth(61);
 
@@ -324,9 +327,6 @@ public class MainController implements Initializable {
 
         studentId.setEditable(true);
         attendenceScore.setEditable(true);
-        testScore.setEditable(true);
-        homeworkScore.setEditable(true);
-        finalTestScore.setEditable(true);
 
 
         studentId.setCellFactory(TextFieldTableCell.forTableColumn());/*监听表格学生信息并修改对象数据*/
@@ -379,43 +379,10 @@ public class MainController implements Initializable {
             }
         });
 
-        homeworkScore.setCellFactory(cellFactoryInteger);
-        homeworkScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
-            @Override
-            public void handle(CellEditEvent<Student, Integer> score) {
-                score.getTableView().getItems()
-                        .get(score.getTablePosition().getRow()).setFinalScore();
-                reload();
-            }
-        });
-
-        finalTestScore.setCellFactory(cellFactoryInteger);
-        finalTestScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
-            @Override
-            public void handle(CellEditEvent<Student, Integer> score) {
-                score.getTableView().getItems()
-                        .get(score.getTablePosition().getRow()).setFinalScore();
-                reload();
-            }
-        });
-
-        testScore.setCellFactory(cellFactoryInteger);
-        testScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
-            @Override
-            public void handle(CellEditEvent<Student, Integer> score) {
-                score.getTableView().getItems()
-                        .get(score.getTablePosition().getRow()).setFinalScore();
-                reload();
-            }
-        });
         tableColumnList.add(studentId);
         tableColumnList.add(name);
         tableColumnList.add(attendenceScore);
-        tableColumnList.add(testScore);
-        tableColumnList.add(homeworkScore);
-        tableColumnList.add(finalTestScore);
         tableColumnList.add(finalScore);
-        MyFileReader.getList().forEach(System.out::println);
         for (String str: MyFileReader.getList()) {
             TableColumn<Student, Integer> item = new TableColumn<>(str);
             item.setEditable(true);

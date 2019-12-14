@@ -2,6 +2,7 @@ package service;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Predicate;
 
 import model.Course;
 import model.Student;
@@ -18,6 +19,7 @@ public class MyFileWriter implements Serializable {
 
     /**
      * ±£´æ
+     *
      * @param map
      */
     public void save(HashMap<Student, ArrayList<Course>> map) {
@@ -64,17 +66,18 @@ public class MyFileWriter implements Serializable {
                     flag = false;
                 }
                 m.getValue().add(new Course(name, 0));
-            }else {//false
+            } else {//false
                 if (flag) {
                     list.remove(name);
                     flag = false;
                 }
                 ArrayList<Course> courses = m.getValue();
-                for (Course course:courses) {
-                    if (name.equals(course.getCourseName())) {
-                        courses.remove(course);
+                courses.removeIf(new Predicate<Course>() {
+                    @Override
+                    public boolean test(Course course) {
+                        return name.equals(course.getCourseName());
                     }
-                }
+                });
             }
         }
         this.save(map);
@@ -110,12 +113,6 @@ public class MyFileWriter implements Serializable {
 
     public int get(Student student, String courseName) {
         ArrayList<Course> lis = map.get(student);
-        if (lis == null) {
-            map.forEach((k, v) -> {
-                if (k.getStudentId().equals(student.getStudentId())) System.out.println("--- " + k.hashCode());
-            });
-            System.out.println(student.hashCode());
-        }
         for (Course course : lis) {
             if (courseName.equals(course.getCourseName())) {
                 return course.getScore();

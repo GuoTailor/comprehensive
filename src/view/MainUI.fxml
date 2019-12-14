@@ -18,14 +18,14 @@
             <MenuItem mnemonicParsing="false" onAction="#clearTable" text="清除数据"/>
             <MenuItem mnemonicParsing="false" onAction="#closeAll" text="关闭"/>
         </Menu>
-        <fx:define>
-            <Label text="添加"  fx:id="add" onMouseClicked="#addItem"/>
-        </fx:define>
-        <fx:define>
-            <Label text="删除"  fx:id="delete" onMouseClicked="#deleteItem"/>
-        </fx:define>
-        <Menu graphic="$add"/>
-        <Menu graphic="$delete"/>
+        <Menu text="添加">
+            <MenuItem mnemonicParsing="false" onAction="#addItem" text="添加学生"/>
+            <MenuItem mnemonicParsing="false" onAction="#addSubject" text="添加学科"/>
+        </Menu>
+        <Menu text="删除">
+            <MenuItem mnemonicParsing="false" onAction="#deleteItem" text="删除学生"/>
+            <MenuItem mnemonicParsing="false" onAction="#deleteSubject" text="删除学科"/>
+        </Menu>
     </MenuBar>
     <VBox  >
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="期末考试成绩单" textAlignment="CENTER"
@@ -53,9 +53,6 @@
                         <TableColumn id="name" fx:id="name" prefWidth="60.0" text="姓名"/>
                         <TableColumn id="attendence" fx:id="attendenceScore" prefWidth="61.0"
                                      text="考勤"/>
-                        <TableColumn id="test" fx:id="testScore" prefWidth="60.0" text="测验"/>
-                        <TableColumn id="homework" fx:id="homeworkScore" prefWidth="60.0" text="作业"/>
-                        <TableColumn id="fianlTest" fx:id="finalTestScore" prefWidth="61.0" text="期末"/>
                         <TableColumn id="finalScore" fx:id="finalScore" prefWidth="61.0" text="总评"/>
                     </columns>
                 </TableView>
