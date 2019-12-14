@@ -75,35 +75,6 @@ public class MainController implements Initializable {
     @FXML
     private SearchBox searchBox;
 
-    @FXML
-    private void openFile() {
-/*
-        MyFileReader fileLloader = new MyFileReader();
-        fileLloader.setFile(MyFileChooser.chooseFile());*//*读取文件*//*
-        if (fileLloader.getFile() != null) {
-            try {
-                students = fileLloader.getFileStudents();*//*读取文件中的学生信息*//*
-            } catch (NumberFormatException e) {
-                MessageView.createView("文件格式错误，请重新编排文件格式！");
-                e.printStackTrace();
-            }
-            if (students.size() != 0) {
-                ObservableList<Student> data = FXCollections
-                        .observableArrayList(students);
-
-                AnalysisStudents(students);*//*分析学生成绩*//*
-                studentView.setItems(data);*//*填充数据*//*
-                status.setText(fileLloader.getFile().getPath() + "_共"
-                        + analysis.getTotalNum() + "人");
-                String temp = fileLloader.getFile().getName();
-                filePath = fileLloader.getFile().getPath();*//*获取文件路径，后面修改文件使用*//*
-                fileName = temp.substring(0, temp.lastIndexOf("."));
-            }
-        } else {
-            MessageView.createView("文件为空");
-        }*/
-    }
-
     private void AnalysisStudents(ArrayList<Student> students) {
         AnalysisService analysisService = new AnalysisService();
         analysis = analysisService.analyseFile(students);
@@ -370,7 +341,12 @@ public class MainController implements Initializable {
                 if (string == null || string.isEmpty()) {
                     return 0;
                 }
-                return Integer.parseInt(string);
+                if (!string.matches("^[1-9]\\d*$"))
+                    MessageView.createView("请输入整数");
+                else {
+                    return Integer.parseInt(string);
+                }
+                return null;
             }
         });
 
@@ -390,7 +366,6 @@ public class MainController implements Initializable {
         tableColumnList.add(studentId);
         tableColumnList.add(name);
         tableColumnList.add(attendenceScore);
-        tableColumnList.add(finalScore);
         for (String str: MyFileReader.getList()) {
             TableColumn<Student, Integer> item = new TableColumn<>(str);
             item.setEditable(true);
@@ -412,6 +387,7 @@ public class MainController implements Initializable {
             item.setPrefWidth(60);
             tableColumnList.add(item);
         }
+        tableColumnList.add(finalScore);
         studentView.getColumns().addAll(tableColumnList);
     }
 

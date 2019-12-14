@@ -12,7 +12,6 @@
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
     <MenuBar  >
         <Menu text="菜单">
-            <MenuItem mnemonicParsing="false" onAction="#openFile" text="打开"/>
             <MenuItem mnemonicParsing="false" onAction="#updateFile" text="保存修改"/>
             <MenuItem mnemonicParsing="false" onAction="#saveFile" text="另存为"/>
             <MenuItem mnemonicParsing="false" onAction="#clearTable" text="清除数据"/>
