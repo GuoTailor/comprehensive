@@ -30,7 +30,7 @@ public class ReadTeacherAndStudent {
         return map;
     }
 
-    public void writeStudent() throws IOException {
+    public static void writeStudent() throws IOException {
         HashMap<Student, ArrayList<Course>> map = MyFileReader.show();
         PrintWriter p = new PrintWriter(new FileWriter("src/scorefile/student.txt"));
         for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {

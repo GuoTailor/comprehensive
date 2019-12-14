@@ -45,8 +45,7 @@ public class MyFileWriter implements Serializable {
             bw.flush();
             bw.close();
             MessageView.createView("保存成功!");
-            ReadTeacherAndStudent r = new ReadTeacherAndStudent();
-            r.writeStudent();
+            ReadTeacherAndStudent.writeStudent();
         } catch (IOException e) {
             e.printStackTrace();
             MessageView.createView("保存失败!");
