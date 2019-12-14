@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -77,7 +78,7 @@ public class MainController implements Initializable {
 
     private void AnalysisStudents(ArrayList<Student> students) {
         AnalysisService analysisService = new AnalysisService();
-        analysis = analysisService.analyseFile(students);
+        analysis = analysisService.analyseFile(students.get(0), "java");
 
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
@@ -367,16 +368,41 @@ public class MainController implements Initializable {
         tableColumnList.add(name);
         tableColumnList.add(attendenceScore);
         for (String str: MyFileReader.getList()) {
-            TableColumn<Student, Integer> item = new TableColumn<>(str);
-            item.setEditable(true);
-            item.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
+            TableColumn<Student, TableColumn<Student, Course>> item = new TableColumn<>(str);
+
+            TableColumn<Student, String> courseId = new TableColumn<>("课程号");
+            TableColumn<Student, Integer> studyTime = new TableColumn<>("学时数");
+            TableColumn<Student, Integer> studyScore = new TableColumn<>("学分");
+            TableColumn<Student, Integer> score = new TableColumn<>("得分");
+            item.getColumns().addAll(score, courseId, studyTime, studyScore);
+
+            courseId.setEditable(true);
+            courseId.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, String>, ObservableValue<String>>() {
                 @Override
-                public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
-                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.get(param.getValue(), str));
+                public ObservableValue<String> call(TableColumn.CellDataFeatures<Student, String> param) {
+                    return new ReadOnlyStringWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getCourseId());
                 }
             });
-            item.setCellFactory(cellFactoryInteger);
-            item.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
+            courseId.setCellFactory(TextFieldTableCell.forTableColumn());
+            courseId.setOnEditCommit(new EventHandler<CellEditEvent<Student, String>>() {
+                @Override
+                public void handle(CellEditEvent<Student, String> score) {
+                    MyFileWriter.instance.alter(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                    reload();
+                }
+            });
+            courseId.setPrefWidth(60);
+
+            studyTime.setEditable(true);
+            studyTime.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
+                @Override
+                public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
+                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getStudyTime());
+                }
+            });
+            studyTime.setCellFactory(cellFactoryInteger);
+            studyTime.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
                 @Override
                 public void handle(CellEditEvent<Student, Integer> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
@@ -384,7 +410,43 @@ public class MainController implements Initializable {
                     reload();
                 }
             });
-            item.setPrefWidth(60);
+            studyTime.setPrefWidth(60);
+
+            studyScore.setEditable(true);
+            studyScore.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
+                @Override
+                public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
+                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getStudyScore());
+                }
+            });
+            studyScore.setCellFactory(cellFactoryInteger);
+            studyScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
+                @Override
+                public void handle(CellEditEvent<Student, Integer> score) {
+                    MyFileWriter.instance.alter(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                    reload();
+                }
+            });
+            studyScore.setPrefWidth(60);
+
+            score.setEditable(true);
+            score.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
+                @Override
+                public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
+                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.getScoreInfo(param.getValue(), str).getScore());
+                }
+            });
+            score.setCellFactory(cellFactoryInteger);
+            score.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
+                @Override
+                public void handle(CellEditEvent<Student, Integer> score) {
+                    MyFileWriter.instance.alter(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()), str, score.getNewValue().toString());
+                    reload();
+                }
+            });
+            score.setPrefWidth(60);
             tableColumnList.add(item);
         }
         tableColumnList.add(finalScore);

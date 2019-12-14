@@ -50,8 +50,7 @@
                     <columns>
                         <TableColumn id="studentId" fx:id="studentId" prefWidth="125.0" text="学号"/>
                         <TableColumn id="name" fx:id="name" prefWidth="60.0" text="姓名"/>
-                        <TableColumn id="attendence" fx:id="attendenceScore" prefWidth="61.0"
-                                     text="考勤"/>
+                        <TableColumn id="attendence" fx:id="attendenceScore" prefWidth="61.0" text="考勤"/>
                         <TableColumn id="finalScore" fx:id="finalScore" prefWidth="61.0" text="总评"/>
                     </columns>
                 </TableView>
