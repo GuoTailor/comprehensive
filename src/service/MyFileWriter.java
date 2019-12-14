@@ -29,6 +29,7 @@ public class MyFileWriter implements Serializable {
             bw.newLine();
             for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
                 Student student = m.getKey();
+                MyFileWriter.total(student);
                 bw.write(student.getStudentId() + "," + student.getName() + "," + student.getAttendenceScore() + "," + student.getFinalScore());
                 ArrayList<Course> list = m.getValue();
                 if (list != null) {
@@ -143,13 +144,12 @@ public class MyFileWriter implements Serializable {
         return null;
     }
 
-    public int Total(Student student) {
+    public static void total(Student student) {
         int total = 0;
         ArrayList<Course> lis = map.get(student);
         for (Course course : lis) {
             total += course.getScore();
         }
-        return total;
+        student.setFinalScore(total);
     }
-
 }

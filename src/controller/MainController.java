@@ -374,8 +374,6 @@ public class MainController implements Initializable {
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setAttendenceScore(score
                         .getNewValue());
-                score.getTableView().getItems()
-                        .get(score.getTablePosition().getRow()).setFinalScore();
                 reload();
             }
         });

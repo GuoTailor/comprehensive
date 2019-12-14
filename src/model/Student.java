@@ -75,8 +75,8 @@ public class Student implements Serializable, Cloneable{
 	}
 
 	
-	public void setFinalScore() {
-		this.finalScore = attendenceScore;
+	public void setFinalScore(Integer finalScore) {
+		this.finalScore = finalScore;
 	}
 		
 	@Override
