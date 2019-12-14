@@ -81,7 +81,7 @@ public class MainController implements Initializable {
 
     private void AnalysisStudents(ArrayList<Student> students, String courseName) {
         AnalysisService analysisService = new AnalysisService();
-        analysis = analysisService.analyseFile(students.get(0), courseName);
+        analysis = analysisService.analyseFile(courseName);
 
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);

@@ -25,7 +25,8 @@ public class Analysis {
 	}
 
 	public double getAvg() {
-		return avg;
+		String value = String.format("%.2f",avg);
+		return Double.parseDouble(value);
 	}
 
 	public int getExcellent() {
@@ -88,5 +89,19 @@ public class Analysis {
 		this.totalNum = totalNum;
 	}
 
+	@Override
+	public String toString() {
+		return "Analysis{" +
+				"max=" + max +
+				", min=" + min +
+				", avg=" + avg +
+				", excellent=" + excellent +
+				", well=" + well +
+				", mid=" + mid +
+				", pass=" + pass +
+				", fail=" + fail +
+				", totalNum=" + totalNum +
+				'}';
+	}
 }
 

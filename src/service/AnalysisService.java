@@ -16,7 +16,7 @@ import view.MessageView;
  */
 public class AnalysisService {
 
-    private HashMap<Student, ArrayList<Course>> map = MyFileReader.show();
+    private static HashMap<Student, ArrayList<Course>> map = MyFileReader.show();
 
     public HashMap<String, Integer> getTotalScore() {
         HashMap<String, Integer> smap = new HashMap<>();
@@ -31,11 +31,10 @@ public class AnalysisService {
         return smap;
     }
 
-
-    private ArrayList<Integer> getScore(Student student, String courseName) {
+    private ArrayList<Integer> getScore(String courseName) {
         ArrayList<Integer> list = new ArrayList<>();
-        for (int i = 0; i < map.size(); i++) {
-            ArrayList<Course> courses = map.get(student);
+        for (Map.Entry<Student,ArrayList<Course>> m : map.entrySet()) {
+            ArrayList<Course> courses = m.getValue();
             for (Course course : courses) {
                 if (courseName.equals(course.getCourseName())) {
                     list.add(course.getScore());
@@ -46,9 +45,9 @@ public class AnalysisService {
     }
 
 
-    public Analysis analyseFile(Student student, String courseName) {
+    public Analysis analyseFile(String courseName) {
         Analysis analysisModel = new Analysis();
-        ArrayList<Integer> list = this.getScore(student, courseName);
+        ArrayList<Integer> list = this.getScore(courseName);
         int max = Collections.max(list);
         int min = Collections.min(list);
         int totalNum = list.size();

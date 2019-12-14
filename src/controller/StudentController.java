@@ -96,7 +96,7 @@ public class StudentController implements Initializable {
 
     private void AnalysisStudents(ArrayList<Student> students) {
         AnalysisService analysisService = new AnalysisService();
-        analysis = analysisService.analyseFile(students.get(0), "java");
+        analysis = analysisService.analyseFile("java");
 
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
