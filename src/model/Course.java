@@ -24,7 +24,12 @@ public class Course implements Serializable, Cloneable {
 		this.score = score;
 	}
 
-
+	public Course(String courseName, Integer studyScore, Integer studyTime, String courseId) {
+		this.courseName = courseName;
+		this.studyScore = studyScore;
+		this.studyTime = studyTime;
+		this.courseId = courseId;
+	}
 
 	public Integer getStudyScore() {
 		return studyScore;

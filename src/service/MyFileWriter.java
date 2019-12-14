@@ -132,7 +132,7 @@ public class MyFileWriter implements Serializable {
 //        ArrayList<Course> lis = map.get(student);
 //        for (Course course : lis) {
 //            if (courseName.equals(course.getCourseName())) {
-//                return new Course(course.getCourseName(),course.getScore(),course.getCourseId(),course.getStudyTime(),course.getStudyScore());
+//                return new Course(course.getCourseName(),course.getCourseId(),course.getStudyTime(),course.getStudyScore());
 //            }
 //        }
 //        return null;
