@@ -384,9 +384,6 @@ public class MainController implements Initializable {
             @Override
             public void handle(CellEditEvent<Student, Integer> score) {
                 score.getTableView().getItems()
-                        .get(score.getTablePosition().getRow()).setHomeworkScore(score
-                        .getNewValue());
-                score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setFinalScore();
                 reload();
             }
@@ -397,9 +394,6 @@ public class MainController implements Initializable {
             @Override
             public void handle(CellEditEvent<Student, Integer> score) {
                 score.getTableView().getItems()
-                        .get(score.getTablePosition().getRow()).setFinalTestScore(score
-                        .getNewValue());
-                score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setFinalScore();
                 reload();
             }
@@ -409,9 +403,6 @@ public class MainController implements Initializable {
         testScore.setOnEditCommit(new EventHandler<CellEditEvent<Student, Integer>>() {
             @Override
             public void handle(CellEditEvent<Student, Integer> score) {
-                score.getTableView().getItems()
-                        .get(score.getTablePosition().getRow()).setTestScore(score
-                        .getNewValue());
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setFinalScore();
                 reload();

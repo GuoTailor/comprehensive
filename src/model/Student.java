@@ -18,34 +18,15 @@ public class Student implements Serializable, Cloneable{
 	private String name;
 	private String password;
 	private int attendenceScore;
-	private int testScore;
-	private int homeworkScore;
-	private int finalTestScore;
 	private int finalScore;
-	private ArrayList<Course> list = new ArrayList<>();
-
-	public Student(ArrayList<Course> list) {
-		this.list = list;
-	}
-
-	public ArrayList<Course> getList() {
-		return list;
-	}
-
-	public void setList(ArrayList<Course> list) {
-		this.list = list;
-	}
 
 	public Student(){}
 	
-	public Student(String studentId, String name, int attendenceScore, int testScore, int homeworkScore, int finalTestScore,int finalScore) {
+	public Student(String studentId, String name, int attendenceScore,int finalScore) {
 		this.studentId = studentId;
 		this.name = name;
 		this.attendenceScore = attendenceScore;
-		this.testScore = testScore;
-		this.homeworkScore = homeworkScore;
-		this.finalTestScore = finalTestScore;
-		this.finalScore = attendenceScore + testScore + homeworkScore + finalTestScore;
+		this.finalScore = finalScore;
 		/*总评为前面四项之和*/
 	}
 
@@ -75,19 +56,7 @@ public class Student implements Serializable, Cloneable{
 	public int getAttendenceScore() {
 		return attendenceScore;
 	}
-	
-	public int getTestScore() {
-		return testScore;
-	}
-	
-	public int getHomeworkScore() {
-		return homeworkScore;
-	}
-	
-	public int getFinalTestScore() {
-		return finalTestScore;
-	}
-	
+
 	public int getFinalScore() {
 		return finalScore;
 	}
@@ -103,21 +72,10 @@ public class Student implements Serializable, Cloneable{
 	public void setAttendenceScore(int attendenceScore) {
 		this.attendenceScore = attendenceScore;
 	}
-	
-	public void setTestScore(int testScore) {
-		this.testScore = testScore;
-	}
-	
-	public void setHomeworkScore(int homeworkScore) {
-		this.homeworkScore = homeworkScore;
-	}
-	
-	public void setFinalTestScore(int finalTestScore) {
-		this.finalTestScore = finalTestScore;
-	}
+
 	
 	public void setFinalScore() {
-		this.finalScore = attendenceScore + testScore + homeworkScore + finalTestScore;
+		this.finalScore = attendenceScore;
 	}
 		
 	@Override
@@ -133,9 +91,6 @@ public class Student implements Serializable, Cloneable{
 				", name='" + name + '\'' +
 				", password='" + password + '\'' +
 				", attendenceScore=" + attendenceScore +
-				", testScore=" + testScore +
-				", homeworkScore=" + homeworkScore +
-				", finalTestScore=" + finalTestScore +
 				", finalScore=" + finalScore +
 				'}';
 	}
@@ -146,14 +101,10 @@ public class Student implements Serializable, Cloneable{
 		if (o == null || getClass() != o.getClass()) return false;
 		Student student = (Student) o;
 		return attendenceScore == student.attendenceScore &&
-				testScore == student.testScore &&
-				homeworkScore == student.homeworkScore &&
-				finalTestScore == student.finalTestScore &&
 				finalScore == student.finalScore &&
 				Objects.equals(studentId, student.studentId) &&
 				Objects.equals(name, student.name) &&
-				Objects.equals(password, student.password) &&
-				Objects.equals(list, student.list);
+				Objects.equals(password, student.password) ;
 	}
 
 }

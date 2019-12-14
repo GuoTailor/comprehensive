@@ -27,8 +27,7 @@ public class MyFileWriter implements Serializable {
             for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
                 Student student = m.getKey();
                 bw.write(student.getStudentId() + "," + student.getName() + "," + student.getAttendenceScore() + ","
-                        + student.getTestScore() + "," + student.getHomeworkScore() + ","
-                        + student.getFinalTestScore() + "," + student.getFinalScore());
+                       + "," + student.getFinalScore());
                 ArrayList<Course> list = m.getValue();
                 if (list != null) {
                     bw.write("#");
@@ -36,7 +35,7 @@ public class MyFileWriter implements Serializable {
                         bw.write(course.getCourseName() + "=" + course.getScore() + ",");
                     }
                 } else {
-                    bw.write(list.get(num++) + "=" + 0 + ",");
+                    bw.write(this.list.get(num++) + "=" + 0 + ",");
                 }
                 bw.newLine();
             }

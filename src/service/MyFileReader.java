@@ -38,8 +38,7 @@ public class MyFileReader {
 				if (s.length == 2) {
 
 					String stu [] = s[0].split(",");
-					Student student = new Student(stu[0],stu[1],Integer.parseInt(stu[2]),Integer.parseInt(stu[3])
-							, Integer.parseInt(stu[4]),Integer.parseInt(stu[5]),0);
+					Student student = new Student(stu[0],stu[1],Integer.parseInt(stu[2]),0);
 					String [] cou = s[1].split(",");
 					//name=0,  f=0  ,
 					ArrayList<Course> list = new ArrayList<>();
@@ -90,11 +89,9 @@ public class MyFileReader {
 				if((line = br.readLine()) != null) {
 					while ((line = br.readLine()) != null) {
 						String[]obj = line.split(",");/*“‘°∞£¨°±∑÷∏Ó*/
-						if (obj.length == 7) {
+						if (obj.length == 4) {
 							Student student = new Student(obj[0], obj[1],
-									Integer.parseInt(obj[2]),Integer.parseInt(obj[3]),
-									Integer.parseInt(obj[4]),Integer.parseInt(obj[5]),
-									Integer.parseInt(obj[6]));
+									Integer.parseInt(obj[2]),Integer.parseInt(obj[3]));
 							students.add(student);
 						}
 				}
