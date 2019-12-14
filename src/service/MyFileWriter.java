@@ -128,14 +128,14 @@ public class MyFileWriter implements Serializable {
         return 0;
     }
 
-//    public Course getScoreInfo(Student student, String courseName) {
-//        ArrayList<Course> lis = map.get(student);
-//        for (Course course : lis) {
-//            if (courseName.equals(course.getCourseName())) {
-//                return new Course(course.getCourseName(),course.getCourseId(),course.getStudyTime(),course.getStudyScore());
-//            }
-//        }
-//        return null;
-//    }
+    public Course getScoreInfo(Student student, String courseName) {
+        ArrayList<Course> lis = map.get(student);
+        for (Course course : lis) {
+            if (courseName.equals(course.getCourseName())) {
+                return course;
+            }
+        }
+        return null;
+    }
 
 }
