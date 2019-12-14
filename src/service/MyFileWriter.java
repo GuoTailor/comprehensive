@@ -16,6 +16,10 @@ public class MyFileWriter implements Serializable {
     private static HashMap<Student, ArrayList<Course>> map = MyFileReader.show();
     private ArrayList<String> list = MyFileReader.getList();
 
+    /**
+     * 保存
+     * @param map
+     */
     public void save(HashMap<Student, ArrayList<Course>> map) {
         int num = 0;
         try {
@@ -52,14 +56,25 @@ public class MyFileWriter implements Serializable {
      * @param name   添加或者修改的课程名字
      */
     public void isDeleteOrAddCourse(boolean option, String name) {
+        boolean flag = true;
         for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
             if (option) {//true
-                list.add(name);
+                if (flag) {
+                    list.add(name);
+                    flag = false;
+                }
                 m.getValue().add(new Course(name, 0));
             }else {//false
-                list.remove(name);
+                if (flag) {
+                    list.remove(name);
+                    flag = false;
+                }
                 ArrayList<Course> courses = m.getValue();
-                courses.removeIf(course -> name.equals(course.getCourseName()));
+                for (Course course:courses) {
+                    if (name.equals(course.getCourseName())) {
+                        courses.remove(course);
+                    }
+                }
             }
         }
         this.save(map);

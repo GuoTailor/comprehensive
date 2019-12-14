@@ -24,8 +24,8 @@ public class LoginServer {
         public String mag;
         public boolean isLogin;
 
-        public Login(String mag, boolean isLogin) {
-            this.mag = mag;
+        public Login(String msg, boolean isLogin) {
+            this.mag = msg;
             this.isLogin = isLogin;
         }
     }
