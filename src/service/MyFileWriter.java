@@ -143,4 +143,13 @@ public class MyFileWriter implements Serializable {
         return null;
     }
 
+    public int Total(Student student) {
+        int total = 0;
+        ArrayList<Course> lis = map.get(student);
+        for (Course course : lis) {
+            total += course.getScore();
+        }
+        return total;
+    }
+
 }
