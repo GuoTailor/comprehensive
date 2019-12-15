@@ -28,7 +28,6 @@ public class MyFileWriter implements Serializable {
             bw.newLine();
             for (Map.Entry<Student, ArrayList<Course>> m : map.entrySet()) {
                 Student student = m.getKey();
-                MyFileWriter.total(student);
                 bw.write(student.getStudentId() + "," + student.getName() + "," + student.getAttendenceScore() + "," + student.getFinalScore());
                 ArrayList<Course> list = m.getValue();
                 if (list != null) {
@@ -101,9 +100,6 @@ public class MyFileWriter implements Serializable {
             course.add(new Course(s, 0, "0", 0, 0));
         }
         map.put(student, course);
-//        for (int i = 0;i < list.size();i++) {
-//            course.add(new Course(,0));
-//        }
     }
 
     public void alter(Student student, String courseName, String courseInfo, String result) {
