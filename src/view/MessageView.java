@@ -2,10 +2,7 @@ package view;
 
 import javax.swing.JOptionPane;
 
-/**
- * 
- * @author pinnuli
- */
+
 public class MessageView {
 
 	public static void createView(String message) {

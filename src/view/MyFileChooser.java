@@ -4,10 +4,6 @@ import java.io.File;
 
 import javafx.stage.FileChooser;
 
-/**
- * 
- * @author pinnuli
- */
 public class MyFileChooser {
 
 	public static File chooseFile() {

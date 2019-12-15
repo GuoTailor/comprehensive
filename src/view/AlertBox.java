@@ -14,9 +14,6 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
-/**
- * Created by gyh on 2019/12/14.
- */
 public class AlertBox {
 
     public void display(String title, String message) {

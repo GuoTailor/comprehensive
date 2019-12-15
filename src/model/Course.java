@@ -5,10 +5,6 @@ package model;
 
 import java.io.Serializable;
 
-/**
- * @author pinnuli
- *
- */
 public class Course implements Serializable, Cloneable {
 	private String courseName;
 	private Integer score;
@@ -24,11 +20,7 @@ public class Course implements Serializable, Cloneable {
 		this.score = score;
 	}
 
-	public Course(String courseName, Integer studyScore, Integer studyTime, String courseId) {
-		this.courseName = courseName;
-		this.studyScore = studyScore;
-		this.studyTime = studyTime;
-		this.courseId = courseId;
+	public Course() {
 	}
 
 	public Integer getStudyScore() {

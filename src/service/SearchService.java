@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import model.Student;
 
-/**
- * 
- * @author pinnuli
- */
 public class SearchService {
 
 	public ArrayList<Student> search(ArrayList<Student> students, String message) {

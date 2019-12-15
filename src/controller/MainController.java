@@ -33,9 +33,6 @@ import model.*;
 import service.*;
 import view.*;
 
-/**
- * @author pinnuli
- */
 public class MainController implements Initializable {
     String fileName;
     String filePath;

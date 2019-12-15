@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-/**
- * @author pinnuli
- *
- */
 
 public class Student implements Serializable, Cloneable{
 	private String studentId;
@@ -19,6 +15,15 @@ public class Student implements Serializable, Cloneable{
 	private String password;
 	private int attendenceScore;
 	private int finalScore;
+	private Course course = new Course();
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
 
 	public Student(){}
 	

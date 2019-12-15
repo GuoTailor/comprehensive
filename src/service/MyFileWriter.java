@@ -16,7 +16,6 @@ public class MyFileWriter implements Serializable {
 
     /**
      * ±£´æ
-     *
      * @param map
      */
     public boolean save(HashMap<Student, ArrayList<Course>> map) {
@@ -39,7 +38,7 @@ public class MyFileWriter implements Serializable {
                                 + course.getStudyTime() + "=" + course.getStudyScore() + ",");
                     }
                 } else {
-                    bw.write(this.list.get(num++) + "=" + "0" + "=" + "0" + "=" + 0 + "=" + "0" + ",");
+                    bw.write(this.list.get(num++) + "=" + "0" + "=" + "0" + "=" + "0" + "=" + "0" + ",");
                 }
                 bw.newLine();
             }

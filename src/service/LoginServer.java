@@ -18,6 +18,7 @@ public class LoginServer {
         return new Login("ÕËºÅ»òÕßÃÜÂë´íÎó", false);
     }
 
+
     public static class Login {
         public String mag;
         public boolean isLogin;

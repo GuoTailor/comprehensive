@@ -7,10 +7,6 @@ import model.Course;
 import model.Student;
 import view.MessageView;
 
-/**
- * 
- * @author pinnuli
- */
 public class MyFileReader {
 
 	private File file;
@@ -42,11 +38,15 @@ public class MyFileReader {
 					String [] cou = s[1].split(",");
 					//name=0,  f=0  ,
 					ArrayList<Course> list = new ArrayList<>();
+					int total = 0;
 					for (String c:cou) {
 						String [] course = c.split("=");
-						list.add(new Course(course[0], Integer.parseInt(course[1]),course[2],
-								Integer.parseInt(course[3]),Integer.parseInt(course[4])));
+						Course course1 = new Course(course[0], Integer.parseInt(course[1]),course[2],
+								Integer.parseInt(course[3]),Integer.parseInt(course[4]));
+						list.add(course1);
+						total += course1.getScore();
 					}
+					student.setFinalScore(total);
 					map.put(student,list);
 					num++;
 				}

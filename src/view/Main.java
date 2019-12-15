@@ -7,9 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-/**
- * @author pinnuli
- */
 public class Main extends Application {
     private static final String AppCss = Main.class.getResource("MainUI.css").toExternalForm();
 

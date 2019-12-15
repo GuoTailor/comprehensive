@@ -1,6 +1,5 @@
 package service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,9 +10,6 @@ import model.Course;
 import model.Student;
 import view.MessageView;
 
-/**
- * @author pinnuli
- */
 public class AnalysisService {
 
     private static HashMap<Student, ArrayList<Course>> map = MyFileReader.show();
