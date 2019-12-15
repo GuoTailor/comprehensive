@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="116.0"
+      prefWidth="694.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CourseMessage">
+    <Pane prefHeight="134.0" prefWidth="694.0">
+        <TextField id="courseName" fx:id="courseName" layoutX="67.0" layoutY="48.0" prefHeight="26.0"
+                   prefWidth="98.0"/>
+        <Text layoutX="27.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="课程名"/>
+        <Text layoutX="187.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="课程号"/>
+        <TextField id="courseId" fx:id="courseId" layoutX="227.0" layoutY="48.0" prefHeight="26.0" prefWidth="98.0"/>
+        <Text layoutX="489.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="学分"
+              wrappingWidth="26.66666603088379"/>
+        <TextField id="studyScore" fx:id="studyScore" layoutX="516.0" layoutY="48.0" prefHeight="26.0" prefWidth="98.0"/>
+        <Text layoutX="339.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="学时"/>
+        <TextField id="studyTime" fx:id="studyTime" layoutX="366.0" layoutY="48.0" prefHeight="26.0" prefWidth="98.0"/>
+    </Pane>
+</VBox>

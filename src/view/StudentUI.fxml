@@ -46,33 +46,27 @@
                     <Font size="20.0"/>
                 </font>
             </Text>
-            <Text id="courseClass" fx:id="courseClass" layoutX="82.0" layoutY="83.0" text="2016级计算机科学与技术4班">
+            <Text id="courseClass" fx:id="courseClass" layoutX="82.0" layoutY="83.0" text="2016级计算机科学与技术N班">
                 <font>
                     <Font size="14.0"/>
                 </font>
             </Text>
         </Pane>
     </VBox>
-
+    <ToolBar>
+        <SearchBox id="search" fx:id="searchBox" onKeyReleased="#search"/>
+    </ToolBar>
     <HBox>
-        <TabPane styleClass="floating" tabClosingPolicy="UNAVAILABLE"
-                 xmlns:fx="http://javafx.com/fxml">
-            <Tab text="成绩单">
-                <TableView fx:id="studentView"
-                           xmlns:fx="http://javafx.com/fxml">
-                    <columns>
-                        <TableColumn id="studentId" fx:id="studentId" prefWidth="125.0" text="学号"/>
-                        <TableColumn id="name" fx:id="name" prefWidth="60.0" text="姓名"/>
-                        <TableColumn id="attendence" fx:id="attendenceScore" prefWidth="61.0"
-                                     text="考勤"/>
-                        <TableColumn id="test" fx:id="testScore" prefWidth="60.0" text="测验"/>
-                        <TableColumn id="homework" fx:id="homeworkScore" prefWidth="60.0" text="作业"/>
-                        <TableColumn id="fianlTest" fx:id="finalTestScore" prefWidth="61.0" text="期末"/>
-                        <TableColumn id="finalScore" fx:id="finalScore" prefWidth="61.0" text="总评"/>
-                    </columns>
-                </TableView>
-            </Tab>
-        </TabPane>
+        <TableView fx:id="studentView"
+                   xmlns:fx="http://javafx.com/fxml">
+            <columns>
+                <TableColumn id="studentId" fx:id="studentId" prefWidth="125.0" text="学号"/>
+                <TableColumn id="name" fx:id="name" prefWidth="60.0" text="姓名"/>
+                <TableColumn id="attendence" fx:id="attendenceScore" prefWidth="61.0"
+                             text="考勤"/>
+                <TableColumn id="finalScore" fx:id="finalScore" prefWidth="61.0" text="总分"/>
+            </columns>
+        </TableView>
     </HBox>
     <ToolBar>
         <Text fx:id="status" text=""/>

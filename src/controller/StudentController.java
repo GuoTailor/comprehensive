@@ -5,12 +5,19 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Analysis;
 import model.Course;
@@ -22,6 +29,7 @@ import service.SearchService;
 import view.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -106,7 +114,8 @@ public class StudentController implements Initializable {
     public Text courseTeacher;
     @FXML
     public Text courseClass;
-
+    @FXML
+    private SearchBox searchBox;
     @FXML
     public TableView<Student> studentView;
 
@@ -115,7 +124,7 @@ public class StudentController implements Initializable {
     public TableColumn<Student, String> studentId = new TableColumn<>("学号");
     public TableColumn<Student, String> name = new TableColumn<>("姓名");
     public TableColumn<Student, Integer> attendenceScore = new TableColumn<>("考勤");
-    public TableColumn<Student, Integer> finalScore = new TableColumn<>("总评");
+    public TableColumn<Student, Integer> finalScore = new TableColumn<>("总分");
 
 
     @FXML
@@ -139,6 +148,30 @@ public class StudentController implements Initializable {
 
         tableViewinitialize();
 
+    }
+
+    @FXML
+    private void search(KeyEvent event) throws IOException {
+        if (students == null) {
+            return;
+        }
+        String message = searchBox.getTextBox().getText();/*获取搜索关键字*/
+        if (event.getCode() == KeyCode.ENTER) {
+            Course course = MyFileWriter.instance.getScoreInfo(students.get(0), message);
+            if (course == null) {
+                MessageView.createView("没有该课程名：" + message);
+            } else {
+                FXMLLoader loader = new FXMLLoader(Main.class.getResource("CourseMessage.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage primaryStage = new Stage();
+                CourseMessage controller = loader.getController();
+                controller.initData(course);
+                primaryStage.setScene(scene);
+                primaryStage.setResizable(false);
+                primaryStage.show();
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -165,18 +198,18 @@ public class StudentController implements Initializable {
         tableColumnList.add(studentId);
         tableColumnList.add(name);
         tableColumnList.add(attendenceScore);
-        tableColumnList.add(finalScore);
-        for (String str: MyFileReader.getList()) {
+        for (String str : MyFileReader.getList()) {
             TableColumn<Student, Integer> item = new TableColumn<>(str);
             item.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Student, Integer>, ObservableValue<Integer>>() {
                 @Override
                 public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Student, Integer> param) {
-                    return (ObservableValue)new ReadOnlyIntegerWrapper(MyFileWriter.instance.get(param.getValue(), str));
+                    return (ObservableValue) new ReadOnlyIntegerWrapper(MyFileWriter.instance.get(param.getValue(), str));
                 }
             });
             item.setPrefWidth(60);
             tableColumnList.add(item);
         }
+        tableColumnList.add(finalScore);
         studentView.getColumns().addAll(tableColumnList);
     }
 
