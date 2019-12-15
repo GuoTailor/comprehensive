@@ -151,7 +151,7 @@ public class MainController implements Initializable {
     public TableColumn<Student, String> studentId = new TableColumn<>("学号");
     public TableColumn<Student, String> name = new TableColumn<>("姓名");
     public TableColumn<Student, Integer> attendenceScore = new TableColumn<>("考勤");
-    public TableColumn<Student, Integer> finalScore = new TableColumn<>("总评");
+    public TableColumn<Student, Integer> finalScore = new TableColumn<>("总分");
 
     @FXML
     private void search() {
@@ -279,7 +279,7 @@ public class MainController implements Initializable {
 
             AnalysisStudents(students, MyFileReader.getList().get(0));/*分析学生成绩*/
             studentView.setItems(data);/*填充数据*/
-            status.setText("_共" + analysis.getTotalNum() + "人");
+            status.setText("共" + analysis.getTotalNum() + "人");
         }
 
         tableViewinitialize();
@@ -371,6 +371,8 @@ public class MainController implements Initializable {
                 score.getTableView().getItems()
                         .get(score.getTablePosition().getRow()).setAttendenceScore(score
                         .getNewValue());
+                MyFileWriter.total(score.getTableView().getItems()
+                        .get(score.getTablePosition().getRow()));
                 reload();
             }
         });
@@ -400,6 +402,8 @@ public class MainController implements Initializable {
                 public void handle(CellEditEvent<Student, String> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
                             .get(score.getTablePosition().getRow()), str, "课程号", score.getNewValue());
+                    MyFileWriter.total(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()));
                     reload();
                 }
             });
@@ -418,6 +422,8 @@ public class MainController implements Initializable {
                 public void handle(CellEditEvent<Student, Integer> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
                             .get(score.getTablePosition().getRow()), str, "学时数", score.getNewValue().toString());
+                    MyFileWriter.total(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()));
                     reload();
                 }
             });
@@ -436,6 +442,8 @@ public class MainController implements Initializable {
                 public void handle(CellEditEvent<Student, Integer> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
                             .get(score.getTablePosition().getRow()), str, "学分", score.getNewValue().toString());
+                    MyFileWriter.total(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()));
                     reload();
                 }
             });
@@ -454,6 +462,8 @@ public class MainController implements Initializable {
                 public void handle(CellEditEvent<Student, Integer> score) {
                     MyFileWriter.instance.alter(score.getTableView().getItems()
                             .get(score.getTablePosition().getRow()), str, "得分", score.getNewValue().toString());
+                    MyFileWriter.total(score.getTableView().getItems()
+                            .get(score.getTablePosition().getRow()));
                     reload();
                 }
             });
