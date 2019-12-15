@@ -27,10 +27,9 @@ public class Student implements Serializable, Cloneable{
 
 	public Student(){}
 	
-	public Student(String studentId, String name, String password, int attendenceScore,int finalScore) {
+	public Student(String studentId, String name, int attendenceScore,int finalScore) {
 		this.studentId = studentId;
 		this.name = name;
-		this.password = password;
 		this.attendenceScore = attendenceScore;
 		this.finalScore = finalScore;
 		/*总评为前面四项之和*/
